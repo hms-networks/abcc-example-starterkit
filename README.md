@@ -1,5 +1,5 @@
 # abcc-example-starterkit
-This is a stand-alone example application using the Anybus CompactCom API ([abcc-api](https://github.com/hms-networks/abcc-api)) ported for the [Anybus CompactCom Starter Kit](https://anybus.com/starterkit40) evaluation platform.
+This is a stand-alone example application using the Anybus CompactCom Driver API ([abcc-api](https://github.com/hms-networks/abcc-driver-api)) ported for the [Anybus CompactCom Starter Kit](https://anybus.com/starterkit40) evaluation platform.
 ### Purpose
 To enable easy evaluation and inspiration to [Anybus CompactCom](https://www.hms-networks.com/embedded-network-interfaces) prospects.
 
@@ -13,7 +13,7 @@ To enable easy evaluation and inspiration to [Anybus CompactCom](https://www.hms
 
 ## Cloning
 ### Flag? What flag?
-This repository contain submodules [abcc-api](https://github.com/hms-networks/abcc-api), ([abcc-driver](https://github.com/hms-networks/abcc-driver) and [abcc-abp](https://github.com/hms-networks/abcc-abp) that must be initialized. Therefore, pass the flag `--recurse-submodules` when cloning.
+This repository contain submodules [abcc-driver-api](https://github.com/hms-networks/abcc-api), ([abcc-driver](https://github.com/hms-networks/abcc-driver) and [abcc-abp](https://github.com/hms-networks/abcc-abp) that must be initialized. Therefore, pass the flag `--recurse-submodules` when cloning.
 
 *It's suggested to clone the repository into your projects `lib/` folder.*
 ```
@@ -27,7 +27,7 @@ git submodule update --init --recursive
 
 ## Build and run
 ### CMake
-This example application utilizes the Anybus CompactCom API's CMake module file in a top level CMakelLists.txt file to generate a complete Visual Studio project. To generate the project, run the lines below, starting in the repository root.
+This example application utilizes the Anybus CompactCom Driver API's CMake module file in a top level CMakelLists.txt file to generate a complete Visual Studio project. To generate the project, run the lines below, starting in the repository root.
 ```
 mkdir build
 ```
