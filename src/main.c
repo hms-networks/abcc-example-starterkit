@@ -156,7 +156,6 @@ int main( void )
       ** Primary function start and drive the abcc-api.
       */
       eErrorCode = ABCC_API_Run();
-
       /*
       ** Handle potential error codes returned from the abcc-api here.
       */
