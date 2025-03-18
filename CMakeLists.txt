@@ -36,7 +36,7 @@ set(starter_kit_example_SRCS
   ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/pctransportprovider/imp_tp.c
 )
 
-# Include (.h) files related to the user host application.
+# Header (.h) files related to the user host application.
 set(starter_kit_example_INCS
   ${PROJECT_SOURCE_DIR}/src/example_application/abcc_network_data_parameters.h
   ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/abcc_driver_config.h
@@ -47,15 +47,13 @@ set(starter_kit_example_INCS
 )
 
 # Adding the 'user unique' sources to the user host application executable target.
-# (The include files are added to keep the file and directory tree structure.)
-target_sources(starter_kit_example PRIVATE ${starter_kit_example_SRCS} ${starter_kit_example_INCS})
-
-# Directories containing include (.h) files unrelated to the CompactCom Driver API.
-set(starter_kit_example_INCLUDE_DIRS
-  ${PROJECT_SOURCE_DIR}/src/
+# The header files are added only to keep the file and directory tree structure.
+target_sources(starter_kit_example PRIVATE
+   ${starter_kit_example_SRCS}
+   ${starter_kit_example_INCS}
 )
 
-# Directories containing 'user unique' include (.h) files related to the CompactCom
+# Directories containing 'user unique' header (.h) files related to the CompactCom
 # Driver API.
 set(ABCC_API_INCLUDE_DIRS
   ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/
@@ -68,10 +66,9 @@ set(ABCC_API_DIR ${PROJECT_SOURCE_DIR}/lib/abcc-driver-api)
 # Including the Anybus CompactCom Driver API's CMake module file.
 include(${ABCC_API_DIR}/abcc-driver-api.cmake)
 
-# Adding both the Anybus CompactCom Driver API related and unrelated include (.h) files
+# Adding both the Anybus CompactCom Driver API related and unrelated header (.h) files
 # to the user host application executable target.
 target_include_directories(starter_kit_example PRIVATE
-  ${starter_kit_example_INCLUDE_DIRS}
   ${ABCC_API_INCLUDE_DIRS}
 )
 
