@@ -15,19 +15,19 @@
 
 static BOOL8 fFirmwareAvailable = FALSE;
 static UINT32 lSerialNumber = 0xFF000001;
-static UINT16 lDeviceType_EtherNetIP = 0xFFFF;
-static UINT16 lProductCode_EtherNetIP = 0x4321;
-static UINT16 lDeviceID_PROFINET = 0x1234;
+static UINT16 iDeviceType_EtherNetIP = 0xFFFF;
+static UINT16 iProductCode_EtherNetIP = 0x4321;
+static UINT16 iDeviceID_PROFINET = 0x1234;
 static const char* pacProductName = "My dynamic product name";
 
-UINT32 ABCC_CbfApplicationObjSerialNum_Get(void)
+UINT32 ABCC_CbfApplicationObjSerialNum_Get( void )
 {
    return( lSerialNumber );
 }
 
 UINT16 ABCC_CbfApplicationObjProductName_Get( char* pPackedStrDest, UINT16 iBuffSize )
 {
-   UINT16 iStrLength = (UINT16)strlen(pacProductName);
+   UINT16 iStrLength = (UINT16)strlen( pacProductName );
 
    iStrLength = iStrLength > iBuffSize ? iBuffSize : iStrLength;
    memcpy( pPackedStrDest, pacProductName, iStrLength );
@@ -56,23 +56,23 @@ BOOL8 ABCC_CbfApplicationObjHWConfAddress_Get( void )
 
 UINT16 ABCC_CbfEthernetIpObjDeviceType_Get( void )
 {
-   return( lDeviceType_EtherNetIP );
+   return( iDeviceType_EtherNetIP );
 }
 
 UINT16 ABCC_CbfEthernetIpObjProductCode_Get( void )
 {
-   return( lProductCode_EtherNetIP );
+   return( iProductCode_EtherNetIP );
 }
 
 UINT16 ABCC_CbfProfinetIoObjDeviceId_Get( void )
 {
-   return( lDeviceID_PROFINET );
+   return( iDeviceID_PROFINET );
 }
 
 UINT16 ABCC_CbfProfinetIoObjOrderId_Get( char* pPackedStrDest, UINT16 iBuffSize )
 {
    static const char* my_product_name = "My dynamic OrderId";
-   UINT16 iStrLength = (UINT16)strlen(my_product_name);
+   UINT16 iStrLength = (UINT16)strlen( my_product_name );
 
    iStrLength = iStrLength > iBuffSize ? iBuffSize : iStrLength;
    memcpy( pPackedStrDest, my_product_name, iStrLength );
@@ -110,5 +110,5 @@ void ABCC_CbfApplicationObj_Reset( ABP_ResetType eResetType )
 BOOL8 ABCC_CbfApplicationObj_ResetRequest( ABP_ResetType eResetType )
 {
    ABCC_LOG_INFO( "Accepted reset request of type: %u\n", eResetType );
-   return TRUE;
+   return( TRUE );
 }
