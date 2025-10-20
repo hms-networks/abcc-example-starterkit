@@ -127,8 +127,14 @@ int main( void )
    TP_vSetPathId( 0 );
 #endif
 
+   //BEGTEST
+#define BEGTEST 1
 
    printf( "-------------------------------------------------\n" );
+#ifdef BEGTEST
+   printf("This is just a test by BEG\n");
+   printf("-------------------------------------------------\n");
+#endif
    printf( "Program started at: " );
    printReadableTime( timeGetTime() );
    printf( "\n" );
