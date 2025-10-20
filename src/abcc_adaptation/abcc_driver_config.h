@@ -17,6 +17,20 @@
 #include "abcc_types.h"
 #include "abp.h"
 
+//BEGTEST: this code was added by BEG 2025-10-16; start
+#ifndef ABCC_CFG_DRV_STRUCTURED_ADIS
+ //#define ABCC_CFG_DRV_STRUCTURED_ADIS 1						
+#endif
+
+#ifdef ABCC_CFG_DRV_STRUCTURED_ADIS
+#ifndef ABCC_CFG_STRUCT_DATA_TYPE_ENABLED
+ #define ABCC_CFG_STRUCT_DATA_TYPE_ENABLED 1     
+#endif
+#endif
+//BEGTEST: this code was added by BEG 2025-10-16; end
+
+
+
 /*------------------------------------------------------------------------------
 ** All interface drivers are supported.
 **------------------------------------------------------------------------------
