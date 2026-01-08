@@ -107,20 +107,20 @@ const AD_MapType ABCC_API_asAdObjDefaultMap[] =
 ** Example assembly write maps.
 **------------------------------------------------------------------------------
 */
-const AD_MapType ABCC_API_asAsmWriteMap1[] =
+const AD_MapType ABCC_API_asAsmWriteSpeedTorque[] =
 {
    { 1, PD_WRITE, AD_MAP_ALL_ELEM, 0 }, /* Speed */
    { 3, PD_WRITE, AD_MAP_ALL_ELEM, 0 }, /* Torque */
    { AD_MAP_END_ENTRY }
 };
 
-const AD_MapType ABCC_API_asAsmWriteMap2[] =
+const AD_MapType ABCC_API_asAsmWriteSpeed[] =
 {
    { 1, PD_WRITE, AD_MAP_ALL_ELEM, 0 }, /* Speed */
    { AD_MAP_END_ENTRY }
 };
 
-const AD_MapType ABCC_API_asAsmWriteMap3[] =
+const AD_MapType ABCC_API_asAsmWriteTorque[] =
 {
    { 3, PD_WRITE, AD_MAP_ALL_ELEM, 0 }, /* Torque */
    { AD_MAP_END_ENTRY }
@@ -130,16 +130,16 @@ const AD_MapType ABCC_API_asAsmWriteMap3[] =
 ** Example assembly read maps.
 **------------------------------------------------------------------------------
 */
-const AD_MapType ABCC_API_asAsmReadMap1[] =
+const AD_MapType ABCC_API_asAsmReadSpeedTorque[] =
 {
    { 2, PD_READ, AD_MAP_ALL_ELEM, 0 }, /* RefSpeed */
    { 4, PD_READ, AD_MAP_ALL_ELEM, 0 }, /* RefTorque */
    { AD_MAP_END_ENTRY }
 };
 
-const AD_MapType ABCC_API_asAsmReadMap2[] =
+const AD_MapType ABCC_API_asAsmReadTorque[] =
 {
-   { 2, PD_READ, AD_MAP_ALL_ELEM, 0 }, /* RefTorque */
+   { 4, PD_READ, AD_MAP_ALL_ELEM, 0 }, /* RefTorque */
    { AD_MAP_END_ENTRY }
 };
 
@@ -147,44 +147,44 @@ const AD_MapType ABCC_API_asAsmReadMap2[] =
 ** Assembly mapping instances.
 **------------------------------------------------------------------------------
 */
-const ASM_InstanceType ABCC_API_sAsmWriteMapInst1 =
+const ASM_InstanceType ABCC_API_sAsmWriteSpeedTorque =
 {
    ABP_ASM_IA_DESC_WRITE | ABP_ASM_IA_DESC_STATIC | ABP_ASM_IA_DESC_PD_MAPPABLE,
-   ABCC_API_asAsmWriteMap1,
-   "Write mappable assembly 1",
-   sizeof( ABCC_API_asAsmWriteMap1 ) / sizeof( AD_MapType ) - 1
+   ABCC_API_asAsmWriteSpeedTorque,
+   "Write speed + torque",
+   sizeof( ABCC_API_asAsmWriteSpeedTorque ) / sizeof( AD_MapType ) - 1
 };
 
-const ASM_InstanceType ABCC_API_sAsmWriteMapInst2 =
+const ASM_InstanceType ABCC_API_sAsmWriteSpeed =
 {
    ABP_ASM_IA_DESC_WRITE | ABP_ASM_IA_DESC_STATIC | ABP_ASM_IA_DESC_PD_MAPPABLE,
-   ABCC_API_asAsmWriteMap2,
-   "Write mappable assembly 2",
-   sizeof( ABCC_API_asAsmWriteMap2 ) / sizeof( AD_MapType ) - 1
+   ABCC_API_asAsmWriteSpeed,
+   "Write speed",
+   sizeof( ABCC_API_asAsmWriteSpeed ) / sizeof( AD_MapType ) - 1
 };
 
-const ASM_InstanceType ABCC_API_sAsmWriteMapInst3 =
+const ASM_InstanceType ABCC_API_sAsmWriteTorque =
 {
    ABP_ASM_IA_DESC_WRITE | ABP_ASM_IA_DESC_STATIC | ABP_ASM_IA_DESC_PD_MAPPABLE,
-   ABCC_API_asAsmWriteMap3,
-   "Write mappable assembly 3",
-   sizeof( ABCC_API_asAsmWriteMap3 ) / sizeof( AD_MapType ) - 1
+   ABCC_API_asAsmWriteTorque,
+   "Write torque",
+   sizeof( ABCC_API_asAsmWriteTorque ) / sizeof( AD_MapType ) - 1
 };
 
-const ASM_InstanceType ABCC_API_sAsmReadMapInst1 =
+const ASM_InstanceType ABCC_API_sAsmReadSpeedTorque =
 {
    ABP_ASM_IA_DESC_READ | ABP_ASM_IA_DESC_STATIC | ABP_ASM_IA_DESC_PD_MAPPABLE,
-   ABCC_API_asAsmReadMap1,
-   "Read mappable assembly 1",
-   sizeof( ABCC_API_asAsmReadMap1 ) / sizeof( AD_MapType ) - 1
+   ABCC_API_asAsmReadSpeedTorque,
+   "Read reference speed + reference torque",
+   sizeof( ABCC_API_asAsmReadSpeedTorque ) / sizeof( AD_MapType ) - 1
 };
 
-const ASM_InstanceType ABCC_API_sAsmReadMapInst2 =
+const ASM_InstanceType ABCC_API_sAsmReadTorque =
 {
    ABP_ASM_IA_DESC_READ | ABP_ASM_IA_DESC_STATIC | ABP_ASM_IA_DESC_PD_MAPPABLE,
-   ABCC_API_asAsmReadMap2,
-   "Read mappable assembly 2",
-   sizeof( ABCC_API_asAsmReadMap2 ) / sizeof( AD_MapType ) - 1
+   ABCC_API_asAsmReadTorque,
+   "Read reference torque",
+   sizeof( ABCC_API_asAsmReadTorque ) / sizeof( AD_MapType ) - 1
 };
 
 /*------------------------------------------------------------------------------
@@ -193,11 +193,11 @@ const ASM_InstanceType ABCC_API_sAsmReadMapInst2 =
 */
 const ASM_InstanceType* ABCC_API_aasAsmInstances[] =
 {
-   &ABCC_API_sAsmWriteMapInst1,
-   &ABCC_API_sAsmWriteMapInst2,
-   &ABCC_API_sAsmWriteMapInst3,
-   &ABCC_API_sAsmReadMapInst1,
-   &ABCC_API_sAsmReadMapInst2
+   &ABCC_API_sAsmWriteSpeedTorque,
+   &ABCC_API_sAsmWriteSpeed,
+   &ABCC_API_sAsmWriteTorque,
+   &ABCC_API_sAsmReadSpeedTorque,
+   &ABCC_API_sAsmReadTorque
 };
 
 const ASM_InstanceType** ABCC_API_CbfGetAsmInstances( void )
