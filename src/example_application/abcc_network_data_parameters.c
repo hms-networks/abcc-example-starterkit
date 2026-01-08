@@ -15,7 +15,7 @@
 **
 ** Example extension: Assembly mapping object
 ** Utilizing two additional ADI, i.e., a total of four ADI to create 3 different
-** write asseblies and 2 different read assemblies.
+** write assemblies and 2 different read assemblies.
 **
 ** Make sure that the following definitions in
 ** abcc_driver_config.h are set to the following:
@@ -70,10 +70,10 @@ static AD_UINT16Type appl_sRefTorqueProp = { { 0, 0xFFFF, 0x0000 } };
 */
 const AD_AdiEntryType ABCC_API_asAdiEntryList[] =
 {
-   { 0x1, "SPEED",      ABP_UINT32, 1, AD_ADI_DESC___W_G, { { &appl_iSpeed,     &appl_sSpeedProp } } },
-   { 0x2, "REF_SPEED",  ABP_SINT32, 1, AD_ADI_DESC__R_SG, { { &appl_iRefSpeed,  &appl_sRefSpeedProp } } },
+   { 0x1, "SPEED",      ABP_UINT16, 1, AD_ADI_DESC___W_G, { { &appl_iSpeed,     &appl_sSpeedProp } } },
+   { 0x2, "REF_SPEED",  ABP_UINT16, 1, AD_ADI_DESC__R_SG, { { &appl_iRefSpeed,  &appl_sRefSpeedProp } } },
    { 0x3, "TORQUE",     ABP_UINT16, 1, AD_ADI_DESC___W_G, { { &appl_iTorque,    &appl_sTorqueProp } } },
-   { 0x4, "REF_TORQUE", ABP_SINT16, 1, AD_ADI_DESC__R_SG, { { &appl_iRefTorque, &appl_sRefTorqueProp } } }
+   { 0x4, "REF_TORQUE", ABP_UINT16, 1, AD_ADI_DESC__R_SG, { { &appl_iRefTorque, &appl_sRefTorqueProp } } }
 };
 
 /*
