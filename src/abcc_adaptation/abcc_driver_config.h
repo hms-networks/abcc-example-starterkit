@@ -86,6 +86,11 @@
 #define EIP_OBJ_ENABLE 1
 #define PRT_OBJ_ENABLE 1
 #define MOD_OBJ_ENABLE 1
+#define ASM_OBJ_ENABLE 1
+
+#define ABCC_CFG_REMAP_SUPPORT_ENABLED 1
+#define ASM_IA_NAME_ENABLE             1
+#define ASM_IA_MAX_NUM_ADI_MAPS_ENABLE 1
 
 /*------------------------------------------------------------------------------
 ** Command response list
