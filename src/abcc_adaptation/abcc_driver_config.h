@@ -117,7 +117,9 @@
    /*ABCC_ETHERNETIP_OBJ_REVISION_GET_VALUE( "\x44\x43" ),*/ \
    /*ABCC_PROFINET_OBJ_VENDOR_ID_GET_VALUE(0xDEAD),*/ \
    /*ABCC_PROFINET_OBJ_DEVICE_ID_GET_CBFUNC,*/ \
-   /*ABCC_PROFINET_OBJ_ORDER_ID_GET_CBFUNC,*/
+   /*ABCC_PROFINET_OBJ_ORDER_ID_GET_CBFUNC,*/ \
+   ABCC_ETHERNETIP_OBJ_PROD_INSTANCE_GET_VALUE("\x64\x00\x65\x00\x66\x00", 6), /* Must match assembly mapping object instances */ \
+   ABCC_ETHERNETIP_OBJ_CONS_INSTANCE_GET_VALUE("\x96\x00\x97\x00", 4), /* Must match assembly mapping object instances */
 
 /*------------------------------------------------------------------------------
 ** Debug and error macro configuration
