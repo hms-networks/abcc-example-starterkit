@@ -17,18 +17,28 @@
 #include "abcc_types.h"
 #include "abp.h"
 
-//added to support structured ADIs; start
+
+/*------------------------------------------------------------------------------
+** Selection of ADI setup: 
+** when defined structured ADIs will be used; 
+** if not defined the ADIs for the speed example will be used
+**------------------------------------------------------------------------------
+*/
 #ifndef ABCC_CFG_DRV_STRUCTURED_ADIS
  #define ABCC_CFG_DRV_STRUCTURED_ADIS 1						
 #endif
 
+
+
+/*------------------------------------------------------------------------------
+** Switch dependent enabling of STRUCT_DATA_TYPE
+**------------------------------------------------------------------------------
+*/
 #ifdef ABCC_CFG_DRV_STRUCTURED_ADIS
 #ifndef ABCC_CFG_STRUCT_DATA_TYPE_ENABLED
  #define ABCC_CFG_STRUCT_DATA_TYPE_ENABLED 1     
 #endif
 #endif
-//added to support structured ADIs; end
-
 
 
 /*------------------------------------------------------------------------------
