@@ -17,28 +17,18 @@
 #include "abcc_types.h"
 #include "abp.h"
 
-
-/*------------------------------------------------------------------------------
-** Selection of ADI setup: 
-** when defined structured ADIs will be used; 
-** if not defined the ADIs for the speed example will be used
-**------------------------------------------------------------------------------
-*/
+//added to support structured ADIs; start
 #ifndef ABCC_CFG_DRV_STRUCTURED_ADIS
- #define ABCC_CFG_DRV_STRUCTURED_ADIS 1						
+ //#define ABCC_CFG_DRV_STRUCTURED_ADIS 1						//BEGTEST
 #endif
 
-
-
-/*------------------------------------------------------------------------------
-** Switch dependent enabling of STRUCT_DATA_TYPE
-**------------------------------------------------------------------------------
-*/
 #ifdef ABCC_CFG_DRV_STRUCTURED_ADIS
 #ifndef ABCC_CFG_STRUCT_DATA_TYPE_ENABLED
  #define ABCC_CFG_STRUCT_DATA_TYPE_ENABLED 1     
 #endif
 #endif
+//added to support structured ADIs; end
+
 
 
 /*------------------------------------------------------------------------------
@@ -122,21 +112,20 @@
 ** command response entry to take effect.
 **------------------------------------------------------------------------------
 */
+
 #define ABCC_API_COMMAND_RESPONSE_LIST \
-   ABCC_APPLICATION_OBJ_OA_RESET_CBFUNC, \
-   ABCC_APPLICATION_OBJ_OA_RESET_REQUEST_CBFUNC, \
+   ABCC_APPLICATION_OBJ_SERIAL_NR_GET_CBFUNC, \
+   ABCC_APPLICATION_OBJ_PRODUCT_NAME_GET_CBFUNC, \
+   ABCC_APPLICATION_OBJ_VENDOR_NAME_GET_VALUE("My Company Name"), \
+   ABCC_ETHERNETIP_OBJ_VENDOR_ID_GET_VALUE(0xBEEF), \
+   ABCC_ETHERNETIP_OBJ_DEVICE_TYPE_GET_CBFUNC, \
+   ABCC_ETHERNETIP_OBJ_PRODUCT_CODE_GET_CBFUNC, \
+   ABCC_ETHERNETIP_OBJ_REVISION_GET_VALUE( "\x44\x43" ), \
+   ABCC_PROFINET_OBJ_VENDOR_ID_GET_VALUE(0xDEAD), \
+   ABCC_PROFINET_OBJ_DEVICE_ID_GET_CBFUNC, \
+   ABCC_PROFINET_OBJ_ORDER_ID_GET_CBFUNC, \
    ABCC_APPLICATION_OBJ_FW_AVAILABLE_GET_CBFUNC, \
-   ABCC_APPLICATION_OBJ_FW_AVAILABLE_SET_CBFUNC, \
-   /*ABCC_APPLICATION_OBJ_SERIAL_NR_GET_CBFUNC,*/ \
-   /*ABCC_APPLICATION_OBJ_PRODUCT_NAME_GET_CBFUNC,*/ \
-   /*ABCC_APPLICATION_OBJ_VENDOR_NAME_GET_VALUE("My Company Name"),*/ \
-   /*ABCC_ETHERNETIP_OBJ_VENDOR_ID_GET_VALUE(0xBEEF),*/ \
-   /*ABCC_ETHERNETIP_OBJ_DEVICE_TYPE_GET_CBFUNC,*/ \
-   /*ABCC_ETHERNETIP_OBJ_PRODUCT_CODE_GET_CBFUNC,*/ \
-   /*ABCC_ETHERNETIP_OBJ_REVISION_GET_VALUE( "\x44\x43" ),*/ \
-   /*ABCC_PROFINET_OBJ_VENDOR_ID_GET_VALUE(0xDEAD),*/ \
-   /*ABCC_PROFINET_OBJ_DEVICE_ID_GET_CBFUNC,*/ \
-   /*ABCC_PROFINET_OBJ_ORDER_ID_GET_CBFUNC,*/
+   ABCC_APPLICATION_OBJ_FW_AVAILABLE_SET_CBFUNC,
 
 /*------------------------------------------------------------------------------
 ** Debug and error macro configuration
