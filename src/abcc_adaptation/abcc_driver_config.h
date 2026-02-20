@@ -25,7 +25,7 @@
 **------------------------------------------------------------------------------
 */
 #ifndef ABCC_CFG_DRV_STRUCTURED_ADIS
- #define ABCC_CFG_DRV_STRUCTURED_ADIS 1
+ //#define ABCC_CFG_DRV_STRUCTURED_ADIS 1
 #endif
 
 
