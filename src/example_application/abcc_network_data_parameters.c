@@ -3,7 +3,7 @@
 ** Licensed under the MIT License.
 ********************************************************************************
 ** File Description:
-** Example of an ADI setup with two simple UINT16 ADIs representing speed and
+** Example of an ADI setup using two simple UINT16 ADIs representing speed and
 ** reference speed of a motor. Both are mapped as cyclical process data
 ** parameters.
 **
@@ -11,12 +11,36 @@
 ** abcc_driver_config.h, are set to the following:
 **    ABCC_CFG_STRUCT_DATA_TYPE_ENABLED     0
 **    ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED 0
+**
+**
+** Example extension: Assembly mapping object
+** Utilizing two additional ADI, i.e., a total of four ADI to create 3 different
+** write assemblies and 2 different read assemblies.
+**
+** Make sure that the following definitions in
+** abcc_driver_config.h are set to the following:
+**    ASM_OBJ_ENABLE 1
+**    ABCC_CFG_REMAP_SUPPORT_ENABLED 1
+**    ASM_IA_NAME_ENABLE 1
+**    ASM_IA_MAX_NUM_ADI_MAPS_ENABLE 1
+**
+** In case of running EtherNet/IP, make sure that EtherNet/IP host object is
+** enabled and that instance attributes 7 and 8 are supported. For example,
+** entered into ABCC_API_COMMAND_RESPONSE_LIST like this:
+**    ABCC_ETHERNETIP_OBJ_PROD_INSTANCE_GET_VALUE("\x64\x00\x65\x00\x66\x00", 6), \
+**    ABCC_ETHERNETIP_OBJ_CONS_INSTANCE_GET_VALUE("\x96\x00\x97\x00", 4)
+**
+** Corresponding to producing instances 0x0064, 0x0065, and 0x0066, and
+** consuming instances 0x0096 and 0x0097.
 ********************************************************************************
 */
 
+#include "stdint.h"
 #include "abcc_api.h"
+#include "abp_asm.h"
+#include "abcc_application_data_interface.h"
 
-#if (  ABCC_CFG_STRUCT_DATA_TYPE_ENABLED || ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED )
+#if ( ABCC_CFG_STRUCT_DATA_TYPE_ENABLED || ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED )
    #error ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED must be set to 0 and ABCC_CFG_STRUCT_DATA_TYPE_ENABLED set to 0 in order to run this example
 #endif
 
@@ -24,37 +48,169 @@
 ** Data holder for the network data parameters (ADI)
 **------------------------------------------------------------------------------
 */
-uint16_t appl_iSpeed;
-uint16_t appl_iRefSpeed;
+static uint16_t appl_iSpeed     = 0x0000;
+static uint16_t appl_iRefSpeed  = 0x0000;
+static uint16_t appl_iTorque    = 0x0000;
+static uint16_t appl_iRefTorque = 0x0000;
 
 /*------------------------------------------------------------------------------
-** Min, max and default value for appl_aiUint16
+** Network data parameters (ADI) properties (min, max, default values)
 **------------------------------------------------------------------------------
 */
-static AD_UINT16Type appl_sUint16Prop = { { 0, 0xFFFF, 0 } };
+static AD_UINT16Type appl_sSpeedProp     = { { 0, 0xFFFF, 0x0000 } };
+static AD_UINT16Type appl_sRefSpeedProp  = { { 0, 0xFFFF, 0x0000 } };
+static AD_UINT16Type appl_sTorqueProp    = { { 0, 0xFFFF, 0x0000 } };
+static AD_UINT16Type appl_sRefTorqueProp = { { 0, 0xFFFF, 0x0000 } };
 
-/*-------------------------------------------------------------------------------------------------------------
-** 1. iInstance | 2. pabName | 3. bDataType | 4. bNumOfElements | 5. bDesc | 6. pxValuePtr | 7. pxValuePropPtr
-**--------------------------------------------------------------------------------------------------------------
+/*
+** The ADI entry list (AD_AdiEntryType):
+** ----------------------------------------------------------------------------------------------------------------------------
+** | 1. iInstance | 2. pabName | 3. bDataType | 4. bNumOfElements | 5. bDesc | 6.pxValuePtr | 7. pxValuePropPtr | 8. psStruct |
+** ----------------------------------------------------------------------------------------------------------------------------
 */
 const AD_AdiEntryType ABCC_API_asAdiEntryList[] =
 {
-   {  0x1,  "SPEED",     ABP_UINT16,   1, AD_ADI_DESC___W_G, { { &appl_iSpeed,    &appl_sUint16Prop } } },
-   {  0x2,  "REF_SPEED", ABP_UINT16,   1, AD_ADI_DESC__R_S_, { { &appl_iRefSpeed, &appl_sUint16Prop } } }
+   { 0x1, "SPEED",      ABP_UINT16, 1, AD_ADI_DESC___W_G, { { &appl_iSpeed,     &appl_sSpeedProp } } },
+   { 0x2, "REF_SPEED",  ABP_UINT16, 1, AD_ADI_DESC__R_SG, { { &appl_iRefSpeed,  &appl_sRefSpeedProp } } },
+   { 0x3, "TORQUE",     ABP_UINT16, 1, AD_ADI_DESC___W_G, { { &appl_iTorque,    &appl_sTorqueProp } } },
+   { 0x4, "REF_TORQUE", ABP_UINT16, 1, AD_ADI_DESC__R_SG, { { &appl_iRefTorque, &appl_sRefTorqueProp } } }
 };
 
-/*------------------------------------------------------------------------------
-** Map all adi:s in both directions
-**------------------------------------------------------------------------------
-** 1. AD instance | 2. Direction | 3. Num elements | 4. Start index |
-**------------------------------------------------------------------------------
+/*
+** Default map (AD_MapType):
+**-------------------------------------------------------------
+** | 1. AdiIndex | 2. Direction | 3. NumElem  | 4. StartIndex |
+**-------------------------------------------------------------
 */
 const AD_MapType ABCC_API_asAdObjDefaultMap[] =
 {
-   { 1, PD_WRITE, AD_MAP_ALL_ELEM, 0 },
-   { 2, PD_READ,  AD_MAP_ALL_ELEM, 0 },
+   { 1, PD_WRITE, AD_MAP_ALL_ELEM, 0 }, /* Speed */
+   { 2, PD_READ,  AD_MAP_ALL_ELEM, 0 }, /* RefSpeed */
    { AD_MAP_END_ENTRY }
 };
+
+#if ASM_OBJ_ENABLE
+
+#if !ABCC_CFG_REMAP_SUPPORT_ENABLED
+   #error "Remap support must be enabled for this example."
+#endif
+
+#if !ASM_IA_NAME_ENABLE
+   #error "Assembly instance names must be supported for this example."
+#endif
+
+#if !ASM_IA_MAX_NUM_ADI_MAPS_ENABLE
+   #error "Max number of ADI maps must be supported for this example."
+#endif
+
+/*------------------------------------------------------------------------------
+** Example assembly write maps.
+**------------------------------------------------------------------------------
+*/
+const AD_MapType ABCC_API_asAsmWriteSpeedTorque[] =
+{
+   { 1, PD_WRITE, AD_MAP_ALL_ELEM, 0 }, /* Speed */
+   { 3, PD_WRITE, AD_MAP_ALL_ELEM, 0 }, /* Torque */
+   { AD_MAP_END_ENTRY }
+};
+
+const AD_MapType ABCC_API_asAsmWriteSpeed[] =
+{
+   { 1, PD_WRITE, AD_MAP_ALL_ELEM, 0 }, /* Speed */
+   { AD_MAP_END_ENTRY }
+};
+
+const AD_MapType ABCC_API_asAsmWriteTorque[] =
+{
+   { 3, PD_WRITE, AD_MAP_ALL_ELEM, 0 }, /* Torque */
+   { AD_MAP_END_ENTRY }
+};
+
+/*------------------------------------------------------------------------------
+** Example assembly read maps.
+**------------------------------------------------------------------------------
+*/
+const AD_MapType ABCC_API_asAsmReadSpeedTorque[] =
+{
+   { 2, PD_READ, AD_MAP_ALL_ELEM, 0 }, /* RefSpeed */
+   { 4, PD_READ, AD_MAP_ALL_ELEM, 0 }, /* RefTorque */
+   { AD_MAP_END_ENTRY }
+};
+
+const AD_MapType ABCC_API_asAsmReadTorque[] =
+{
+   { 4, PD_READ, AD_MAP_ALL_ELEM, 0 }, /* RefTorque */
+   { AD_MAP_END_ENTRY }
+};
+
+/*------------------------------------------------------------------------------
+** Assembly mapping instances.
+**------------------------------------------------------------------------------
+*/
+const ASM_InstanceType ABCC_API_sAsmWriteSpeedTorque =
+{
+   ABP_ASM_IA_DESC_WRITE | ABP_ASM_IA_DESC_STATIC | ABP_ASM_IA_DESC_PD_MAPPABLE,
+   ABCC_API_asAsmWriteSpeedTorque,
+   "Write speed + torque",
+   sizeof( ABCC_API_asAsmWriteSpeedTorque ) / sizeof( AD_MapType ) - 1
+};
+
+const ASM_InstanceType ABCC_API_sAsmWriteSpeed =
+{
+   ABP_ASM_IA_DESC_WRITE | ABP_ASM_IA_DESC_STATIC | ABP_ASM_IA_DESC_PD_MAPPABLE,
+   ABCC_API_asAsmWriteSpeed,
+   "Write speed",
+   sizeof( ABCC_API_asAsmWriteSpeed ) / sizeof( AD_MapType ) - 1
+};
+
+const ASM_InstanceType ABCC_API_sAsmWriteTorque =
+{
+   ABP_ASM_IA_DESC_WRITE | ABP_ASM_IA_DESC_STATIC | ABP_ASM_IA_DESC_PD_MAPPABLE,
+   ABCC_API_asAsmWriteTorque,
+   "Write torque",
+   sizeof( ABCC_API_asAsmWriteTorque ) / sizeof( AD_MapType ) - 1
+};
+
+const ASM_InstanceType ABCC_API_sAsmReadSpeedTorque =
+{
+   ABP_ASM_IA_DESC_READ | ABP_ASM_IA_DESC_STATIC | ABP_ASM_IA_DESC_PD_MAPPABLE,
+   ABCC_API_asAsmReadSpeedTorque,
+   "Read reference speed + reference torque",
+   sizeof( ABCC_API_asAsmReadSpeedTorque ) / sizeof( AD_MapType ) - 1
+};
+
+const ASM_InstanceType ABCC_API_sAsmReadTorque =
+{
+   ABP_ASM_IA_DESC_READ | ABP_ASM_IA_DESC_STATIC | ABP_ASM_IA_DESC_PD_MAPPABLE,
+   ABCC_API_asAsmReadTorque,
+   "Read reference torque",
+   sizeof( ABCC_API_asAsmReadTorque ) / sizeof( AD_MapType ) - 1
+};
+
+/*------------------------------------------------------------------------------
+** Array of all assembly mapping instances.
+**------------------------------------------------------------------------------
+*/
+const ASM_InstanceType* ABCC_API_aasAsmInstances[] =
+{
+   &ABCC_API_sAsmWriteSpeedTorque,
+   &ABCC_API_sAsmWriteSpeed,
+   &ABCC_API_sAsmWriteTorque,
+   &ABCC_API_sAsmReadSpeedTorque,
+   &ABCC_API_sAsmReadTorque
+};
+
+const ASM_InstanceType** ABCC_API_CbfGetAsmInstances( void )
+{
+   return( ABCC_API_aasAsmInstances );
+}
+
+UINT16 ABCC_API_CbfGetNumAsmInstances( void )
+{
+   return( sizeof( ABCC_API_aasAsmInstances ) / sizeof( ASM_InstanceType* ) );
+}
+#endif /* ASM_OBJ_ENABLE */
+
 
 UINT16 ABCC_API_CbfGetNumAdi( void )
 {
@@ -62,7 +218,7 @@ UINT16 ABCC_API_CbfGetNumAdi( void )
 }
 
 /*------------------------------------------------------------------------------
-** Example - electric motor control loop
+** Example - electric motor speed control loop
 **------------------------------------------------------------------------------
 */
 void ABCC_API_CbfCyclicalProcessing()
