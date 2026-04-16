@@ -150,6 +150,13 @@ int main( void )
 
    lThen = timeGetTime();
 
+   /*
+   ** Set node address and baud rate for fieldbus modules; easy adaption by changing value inside the brackets
+   */
+   ABCC_API_SetAddress (0x55);
+   ABCC_API_SetBaudrate (0x01);
+
+
    while( !fQuit  )
    {
       /*
