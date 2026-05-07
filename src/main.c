@@ -66,7 +66,7 @@
 #if ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS
    #define NODE_ADDRESS_TEST_VALUE    10
    #define BIT_RATE_TEST_VALUE         1
-#endif // ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS
+#endif /* ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS */
 
 
 extern void TP_Shutdown( void );
