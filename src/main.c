@@ -23,7 +23,7 @@
 #include "abcc_types.h"
 #include "abcc_api.h"
 
-#ifndef ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS
+#ifndef APP_CFG_SET_FIELDBUS_TEST_ADDRESS
    /*
    ** Some networks require the application to set a network device address and
    ** some also require a network communication bit rate to be configured.
@@ -48,12 +48,12 @@
    ** Ethernet modules, the current version of the code sets an IP address of
    ** 192.168.0.xxx (subnet 255.255.255.0, gateway 0.0.0.0) based on the
    ** provided address, using the provided address as the fourth octet ("xxx").
-   ** 
+   **
    ** Note 2:
    ** For CC-Link IE TSN, there are additional communication settings that can
    ** or must be set via ABCC_API_SetCommSettings(). The call to this function
    ** must be added if necessary.
-   ** 
+   **
    ** Note 3:
    ** The field device will need address switches or another configuration
    ** option directly at the device.
@@ -61,9 +61,9 @@
    ** to implement proprietary tools as only way to change the network address
    ** and/or bit rate.
    */
-   #define ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS (FALSE)
+   #define APP_CFG_SET_FIELDBUS_TEST_ADDRESS (FALSE)
 #endif /* !ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS */
-#if ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS
+#if APP_CFG_SET_FIELDBUS_TEST_ADDRESS
    #define NODE_ADDRESS_TEST_VALUE    10
    #define BIT_RATE_TEST_VALUE         1
 #endif /* ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS */
@@ -196,7 +196,7 @@ int main( void )
 
    lThen = timeGetTime();
 
-#if ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS
+#if APP_CFG_SET_FIELDBUS_TEST_ADDRESS
    /*
    ** This test code sets the address and bit rate to hard coded values.
    ** The real implementation shall use switches or a configuration menu at the
@@ -207,7 +207,7 @@ int main( void )
    printf( "   Node Address value provided to API: %d\n", NODE_ADDRESS_TEST_VALUE );
    ABCC_API_SetBaudrate( BIT_RATE_TEST_VALUE );
    printf( "   Bit rate value provided to API: %d\n\n", BIT_RATE_TEST_VALUE );
-#endif // ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS
+#endif /* ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS */
 
 
 
