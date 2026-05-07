@@ -47,7 +47,7 @@
    ** When the test code for setting the address is used in conjunction with
    ** Ethernet modules, the current version of the code sets an IP address of
    ** 192.168.0.xxx (subnet 255.255.255.0, gateway 0.0.0.0) based on the
-   ** provided address, using the provided address as the fourth octet (ìxxxî).
+   ** provided address, using the provided address as the fourth octet (‚Äúxxx‚Äù).
    ** 
    ** Note 2:
    ** For CC-Link IE TSN, there are additional communication settings that can
@@ -206,7 +206,7 @@ int main( void )
    ABCC_API_SetAddress (NODE_ADDRESS_TEST_VALUE);
    printf( "   Node Address value provided to API: %d\n", NODE_ADDRESS_TEST_VALUE );
    ABCC_API_SetBaudrate (BIT_RATE_TEST_VALUE);
-   printf( "   Bit rate value provided to API: %d\n\n", NODE_ADDRESS_TEST_VALUE );
+   printf( "   Bit rate value provided to API: %d\n\n", BIT_RATE_TEST_VALUE );
 #endif // ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS
 
 
