@@ -23,6 +23,52 @@
 #include "abcc_types.h"
 #include "abcc_api.h"
 
+#ifndef ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS
+   /*
+   ** Some networks require the application to set a network device address and
+   ** some also require a network communication bit rate.to be configured.
+   **
+   ** Although this primarily affects the fieldbus versions of the modules,
+   ** Industrial Ethernet modules (such as Ethernet POWERLINK) may also be
+   ** affected.
+   ** This compiler switch ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS can be used to
+   ** enable the setting of a hard-coded address and baud rate during system
+   ** startup.
+   ** The values passed must be adapted to your specific test scenario and fall
+   ** within the permitted ranges.
+   ** Whether a device address is supported and the permitted value range (if
+   ** applicable) is documented in the Network Guides for the respective
+   ** networks. (Network Configuration Object (04h), Instance 1)
+   ** There you will also find information on whether a bit rate can/must be
+   ** configured and which actual bit rates the various permitted ENUM values
+   ** represent. (Network Configuration Object (04h), Instance 2)
+   **
+   ** Note 1:
+   ** When the test code for setting the address is used in conjunction with
+   ** Ethernet modules, the current version of the code sets an IP address of
+   ** 192.168.0.xxx (subnet 255.255.255.0, gateway 0.0.0.0) based on the
+   ** provided address, using the provided address as the fourth octet (“xxx”).
+   ** 
+   ** Note 2:
+   ** For CC-Link IE TSN, there are additional communication settings that can
+   ** or must be set via ABCC_API_SetCommSettings(). The call to this function
+   ** must be added if necessary.
+   ** 
+   ** Note 3:
+   ** The field device will need address switches or another configuration
+   ** option directly at the device.
+   ** Even if they might be allowed as additional option, it is not recommended
+   ** to implement proprietary tools as only way to change the network address
+   ** and/or bit rate.
+   */
+   #define ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS (TRUE)
+#endif /* !ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS */
+#if ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS
+   #define NODE_ADDRESS_TEST_VALUE    10
+   #define BIT_RATE_TEST_VALUE         1
+#endif // ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS
+
+
 extern void TP_Shutdown( void );
 extern void TP_vSetPathId( UINT32 lValue );
 
@@ -150,11 +196,19 @@ int main( void )
 
    lThen = timeGetTime();
 
+#if ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS
    /*
-   ** Set node address and baud rate for fieldbus modules; easy adaption by changing value inside the brackets
+   ** This test code sets the address and bit rate to hard coded values.
+   ** The real implementation shall use switches or a configuration menu at the
+   ** device itself.
    */
-   ABCC_API_SetAddress (0x55);
-   ABCC_API_SetBaudrate (0x01);
+   printf( "Test code for hard coded Node Address and Bit rate used!\n" );
+   ABCC_API_SetAddress (NODE_ADDRESS_TEST_VALUE);
+   printf( "   Node Address value provided to API: %d\n", NODE_ADDRESS_TEST_VALUE );
+   ABCC_API_SetBaudrate (BIT_RATE_TEST_VALUE);
+   printf( "   Bit rate value provided to API: %d\n\n", NODE_ADDRESS_TEST_VALUE );
+#endif // ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS
+
 
 
    while( !fQuit  )
