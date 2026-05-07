@@ -7,6 +7,30 @@
 ********************************************************************************
 */
 
+/*------------------------------------------------------------------------------
+** Data type mnemonics:
+**
+** The variable names throughout this code use the following mnemonics
+** to specify the data type of the variable:
+**
+**    a     Array
+**    b     8-bit integer
+**    c     Character
+**    d     Double-precision float
+**    e     Enumeration
+**    f     Boolean (flag)
+**    i     16-bit integer
+**    l     32-bit integer
+**    ll    64-bit integer
+**    p     Pointer
+**    r     Single-precision float
+**    s     Structure
+**    u     Union
+**    n     Function
+**    x     Not known / not relevant
+**------------------------------------------------------------------------------
+*/
+
 #ifndef ABCC_TD_H
 #define ABCC_TD_H
 

@@ -79,13 +79,32 @@
 #define ABCC_CFG_DRV_ASSUME_FW_UPDATE_ENABLED      1
 
 /*------------------------------------------------------------------------------
+** Anybus objects to support.
+**------------------------------------------------------------------------------
+*/
+#define ANB_FSI_OBJ_ENABLE                         1
+#define DI_OBJ_ENABLE                              0
+
+/*------------------------------------------------------------------------------
 ** Host application objects to support.
 **------------------------------------------------------------------------------
 */
-#define ANB_FSI_OBJ_ENABLE 1
-#define EIP_OBJ_ENABLE 1
-#define PRT_OBJ_ENABLE 1
-#define MOD_OBJ_ENABLE 1
+#define ASM_OBJ_ENABLE                             0
+#define ETN_OBJ_ENABLE                             0
+#define SYNC_OBJ_ENABLE                            0
+
+#define PRT_OBJ_ENABLE                             1
+#define EIP_OBJ_ENABLE                             1
+#define ECT_OBJ_ENABLE                             0
+#define MOD_OBJ_ENABLE                             1
+#define BAC_OBJ_ENABLE                             0
+#define EPL_OBJ_ENABLE                             0
+#define DPV1_OBJ_ENABLE                            0
+#define DEV_OBJ_ENABLE                             0
+#define COP_OBJ_ENABLE                             0
+#define CCL_OBJ_ENABLE                             0
+#define CFN_OBJ_ENABLE                             0
+#define CIET_OBJ_ENABLE                            0
 
 /*------------------------------------------------------------------------------
 ** Command response list
