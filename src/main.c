@@ -23,31 +23,28 @@
 #include "abcc_types.h"
 #include "abcc_api.h"
 
-#ifndef APP_CFG_SET_FIELDBUS_TEST_ADDRESS
+#ifndef APPL_CFG_SET_FIELDBUS_TEST_ADDRESS
    /*
    ** Some networks require the application to set a network device address and
-   ** some also require a network communication bit rate to be configured.
+   ** communication bit rate.
    **
-   ** Although this primarily affects the fieldbus versions of the modules,
-   ** Industrial Ethernet modules (such as Ethernet POWERLINK) may also be
-   ** affected.
-   ** This compiler switch ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS can be used to
-   ** enable the setting of a hard-coded address and baud rate during system
-   ** startup.
+   ** While primarily intended for fieldbus versions of the modules, this may
+   ** also apply to Industrial Ethernet (e.g. Ethernet POWERLINK).
+   ** Defining the compiler switch APPL_CFG_SET_FIELDBUS_TEST_ADDRESS to TRUE
+   ** activates embedded test code to set a hardcoded address and bit rate
+   ** during system startup.
    ** The values passed must be adapted to your specific test scenario and fall
    ** within the permitted ranges.
-   ** Whether a device address is supported and the permitted value range (if
-   ** applicable) is documented in the Network Guides for the respective
-   ** networks. (Network Configuration Object (04h), Instance 1)
-   ** There you will also find information on whether a bit rate can/must be
-   ** configured and which actual bit rates the various permitted ENUM values
-   ** represent. (Network Configuration Object (04h), Instance 2)
+   ** Refer to the respective Network Guides for supported device addresses and
+   ** their permitted value ranges (Network Configuration Object 04h, Instance
+   ** 1). Supported bit rates and ENUM definitions are listed there, as well.
+   ** (Network Configuration Object (04h), Instance 2)
    **
    ** Note 1:
-   ** When the test code for setting the address is used in conjunction with
-   ** Ethernet modules, the current version of the code sets an IP address of
-   ** 192.168.0.xxx (subnet 255.255.255.0, gateway 0.0.0.0) based on the
-   ** provided address, using the provided address as the fourth octet ("xxx").
+   ** When used with Ethernet modules, this test code configures an IP address
+   ** in the 192.168.0.x range, with a fixed subnet mask of 255.255.255.0 and 
+   ** gateway 0.0.0.0. The provided address value populates the fourth octet of
+   ** the IP address.
    **
    ** Note 2:
    ** For CC-Link IE TSN, there are additional communication settings that can
@@ -55,15 +52,14 @@
    ** must be added if necessary.
    **
    ** Note 3:
-   ** The field device will need address switches or another configuration
-   ** option directly at the device.
-   ** Even if they might be allowed as additional option, it is not recommended
-   ** to implement proprietary tools as only way to change the network address
-   ** and/or bit rate.
+   ** The field device requires physical address switches or another
+   ** configuration option directly on the device. While proprietary tools may
+   ** be offered as an optional convenience, it is not recommended for them to
+   ** be the sole method for configuring the network address or bit rate.
    */
-   #define APP_CFG_SET_FIELDBUS_TEST_ADDRESS (FALSE)
+   #define APPL_CFG_SET_FIELDBUS_TEST_ADDRESS (FALSE)
 #endif /* !ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS */
-#if APP_CFG_SET_FIELDBUS_TEST_ADDRESS
+#if APPL_CFG_SET_FIELDBUS_TEST_ADDRESS
    #define NODE_ADDRESS_TEST_VALUE    10
    #define BIT_RATE_TEST_VALUE         1
 #endif /* ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS */
@@ -196,15 +192,15 @@ int main( void )
 
    lThen = timeGetTime();
 
-#if APP_CFG_SET_FIELDBUS_TEST_ADDRESS
+#if APPL_CFG_SET_FIELDBUS_TEST_ADDRESS
    /*
    ** This test code sets the address and bit rate to hard coded values.
-   ** The real implementation shall use switches or a configuration menu at the
+   ** The real implementation shall use switches or a configuration menu on the
    ** device itself.
    */
-   printf( "Test code for hard coded Node Address and Bit rate used!\n" );
+   printf( "Test code enabled for hardcoded node address and bit rate.\n" );
    ABCC_API_SetAddress( NODE_ADDRESS_TEST_VALUE );
-   printf( "   Node Address value provided to API: %d\n", NODE_ADDRESS_TEST_VALUE );
+   printf( "   Node address value provided to API: %d\n", NODE_ADDRESS_TEST_VALUE );
    ABCC_API_SetBaudrate( BIT_RATE_TEST_VALUE );
    printf( "   Bit rate value provided to API: %d\n\n", BIT_RATE_TEST_VALUE );
 #endif /* ABCC_CFG_SET_FIELDBUS_TEST_ADDRESS */
