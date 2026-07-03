@@ -44,7 +44,7 @@ const AD_AdiEntryType ABCC_API_asAdiEntryList[] =
 };
 
 /*------------------------------------------------------------------------------
-** Map all adi:s in both directions
+** Map all ADI:s in both directions
 **------------------------------------------------------------------------------
 ** 1. AD instance | 2. Direction | 3. Num elements | 4. Start index |
 **------------------------------------------------------------------------------
