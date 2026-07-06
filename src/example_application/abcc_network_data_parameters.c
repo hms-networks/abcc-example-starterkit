@@ -34,7 +34,7 @@ uint16_t appl_iRefSpeed;
 static AD_UINT16Type appl_sUint16Prop = { { 0, 0xFFFF, 0 } };
 
 /*-------------------------------------------------------------------------------------------------------------
-** 1. iInstance | 2. pacName | 3. bDataType | 4. bNumOfElements | 5. bDesc | 6. pxValuePtr | 7. pxValueProps
+** 1. iInstance | 2. pacName | 3. bDataType | 4. bNumOfElements | 5. bDesc | 6. pxValuePtr | 7. psValueProps
 **-------------------------------------------------------------------------------------------------------------
 */
 const AD_AdiEntryType ABCC_API_asAdiEntryList[] =
