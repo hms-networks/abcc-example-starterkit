@@ -27,6 +27,7 @@
 **    s     Structure
 **    u     Union
 **    n     Function
+**    v     Void
 **    x     Not known / not relevant
 **------------------------------------------------------------------------------
 */
