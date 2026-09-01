@@ -31,7 +31,7 @@
 **------------------------------------------------------------------------------
 */
 #define ABCC_CFG_OP_MODE_GETTABLE                  1
-#define ABCC_CFG_OP_MODE_SETTABLE                  1
+#define ABCC_CFG_OP_MODE_SETTABLE                  0
 
 /*------------------------------------------------------------------------------
 ** ABCC memory access configuration for parallel operating modes
