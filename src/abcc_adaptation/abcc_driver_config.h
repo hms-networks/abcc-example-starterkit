@@ -26,8 +26,9 @@
 #define ABCC_CFG_DRV_SERIAL_ENABLED                1
 
 /*------------------------------------------------------------------------------
-** The software can both get the operating mode from external resource and set
-** the selected operating mode to the ABCC host connector.
+** The operating mode is selected by the user in the Transport Provider
+** popup window at startup. In contrast, the operating mode is set by the
+** Transport Provider connection itself.
 **------------------------------------------------------------------------------
 */
 #define ABCC_CFG_OP_MODE_GETTABLE                  1
