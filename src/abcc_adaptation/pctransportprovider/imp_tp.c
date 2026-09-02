@@ -4,8 +4,9 @@
 ********************************************************************************
 */
 
-// Note: this file must not be compiled with precompiled headers, since it
-// includes <windows.h> and its WINVER defines at the very top.
+// Note: This file must be compiled without precompiled headers.
+// PCH may include <windows.h> before the WINVER/_WIN32_WINNT
+// defines below.
 
 #define WINVER 0x0500 // _WIN32_WINNT_WIN2K
 #define _WIN32_WINNT 0x0500 // _WIN32_WINNT_WIN2K
