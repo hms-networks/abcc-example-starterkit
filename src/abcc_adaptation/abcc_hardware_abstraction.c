@@ -2,7 +2,8 @@
 ** Copyright 2025-present HMS Industrial Networks AB.
 ** Licensed under the MIT License.
 ********************************************************************************
-** File Description:
+** File Description: Hardware abstraction layer for the
+** Anybus Starter Kit Windows port.
 ********************************************************************************
 */
 #include "windows.h"
@@ -37,25 +38,24 @@ unsigned runISR = 0;
 #define TP_USB2_SPECIFIC_CMD_GET_PORT_E ( 0x06 )
 #define USB2_PORT_E_IRQ 0x01
 
-
 /* The ACI external memory map is 16 kB. */
 #define ACI_MEMORY_MAP_SIZE 16384
 
-static ABCC_HAL_SpiDataReceivedCbfType pnDataReadyCbf;
+static ABCC_HAL_SpiDataReceivedCbfType pnSpiDataReadyCbf;
 static ABCC_HAL_SerDataReceivedCbfType pnSerDataReadyCbf;
 
-static UINT8    sys_abReadProcessData[ ABCC_CFG_MAX_PROCESS_DATA_SIZE ];  /* Process data byte array. */
-static UINT8    sys_abWriteProcessData[ ABCC_CFG_MAX_PROCESS_DATA_SIZE ]; /* Process data byte array. */
+static UINT8 sys_abReadProcessData[ ABCC_CFG_MAX_PROCESS_DATA_SIZE ];  /* Process data byte array. */
+static UINT8 sys_abWriteProcessData[ ABCC_CFG_MAX_PROCESS_DATA_SIZE ]; /* Process data byte array. */
 
-static    TP_Path xPathHandle = NULL;
-static    UINT32 lPathId = 0;
+static TP_Path xPathHandle = NULL;
+static UINT32 lPathId = 0;
 
-static   UINT8 sys_bOpmode = 0;
-static    TP_InterfaceType eInterface = TP_ANY;
+static UINT8 sys_bOpmode = 0;
+static TP_InterfaceType eInterface = TP_ANY;
 
 
 /* Global to ease debugging: This is the last received status code from the TP. */
-static    TP_StatusType eLastReceivedTpPariStatus;
+static TP_StatusType eLastReceivedTpPariStatus;
 
 void TP_Shutdown( void )
 {
@@ -87,7 +87,7 @@ static UINT8 TP_Command( UINT8 bCommand )
 
    if ( eStatus != TP_ERR_NONE )
    {
-      ABCC_LOG_WARNING( ABCC_EC_HAL_ERR, (UINT32)eStatus, "Transport provider error %d\n", eStatus );
+      ABCC_LOG_WARNING( ABCC_EC_HAL_ERR, (UINT32)eStatus, "Transport Provider error %d\n", eStatus );
    }
    return( sMsg.sRsp.abData[0] );
 }
@@ -136,9 +136,9 @@ void ABCC_HAL_Close( void )
 }
 
 #if( ABCC_CFG_DRV_SPI_ENABLED )
-void ABCC_HAL_SpiRegDataReceived( ABCC_HAL_SpiDataReceivedCbfType pnDataReceived  )
+void ABCC_HAL_SpiRegDataReceived( ABCC_HAL_SpiDataReceivedCbfType pnDataReceived )
 {
-   pnDataReadyCbf = pnDataReceived;
+   pnSpiDataReadyCbf = pnDataReceived;
 }
 
 void ABCC_HAL_SpiSendReceive( void* pxSendDataBuffer, void* pxReceiveDataBuffer, UINT16 iLength )
@@ -151,11 +151,11 @@ void ABCC_HAL_SpiSendReceive( void* pxSendDataBuffer, void* pxReceiveDataBuffer,
 
    ABCC_PORT_ExitCritical();
 
-   if (eStatus == TP_ERR_NONE )
+   if ( eStatus == TP_ERR_NONE )
    {
-      if( pnDataReadyCbf )
+      if( pnSpiDataReadyCbf )
       {
-         pnDataReadyCbf();
+         pnSpiDataReadyCbf();
       }
    }
    else
@@ -230,7 +230,7 @@ void ABCC_HAL_ParallelWrite16( UINT16 iMemOffset, UINT16 piData )
 void ABCC_HAL_SetOpmode( UINT8 bOpmode )
 {
    /*
-   ** This is done already in ABCC_HAL_init. Otherwise we cannot read the MD or MI
+   ** This is already done in ABCC_HAL_HwInit. Otherwise we cannot read the MD or MI
    ** values from the USB2 board.
    */
    (void)bOpmode;
@@ -249,7 +249,7 @@ UINT8 ABCC_HAL_GetOpmode( void )
 void ABCC_HAL_HWReset( void )
 {
    TP_StatusType eStatus;
-   TP_MessageType  sMsg;
+   TP_MessageType sMsg;
 
    sMsg.sReq.eCommand = TP_CMD_RESET;
    sMsg.sReq.bDataSize = 1;
@@ -264,7 +264,7 @@ void ABCC_HAL_HWReset( void )
 void ABCC_HAL_HWReleaseReset( void )
 {
    TP_StatusType eStatus;
-   TP_MessageType  sMsg;
+   TP_MessageType sMsg;
    sMsg.sReq.eCommand = TP_CMD_RESET;
    sMsg.sReq.bDataSize = 1;
    sMsg.sReq.abData[0] = 1;
@@ -440,7 +440,7 @@ BOOL ABCC_HAL_IsAbccInterruptActive( void )
 
 
 /*
- ** This function will start the transport provider connection
+ ** This function will start the Transport Provider connection
  ** Note! This function is called by the application before
  ** the driver is accessed.
  */
@@ -489,7 +489,7 @@ BOOL ABCC_StartTransportProvider( void )
    {
    case TP_SPI:
 
-      eStatus = TP_SpiOpen(xPathHandle, 12000000, TP_SPI_4WIRE );
+      eStatus = TP_SpiOpen( xPathHandle, 12000000, TP_SPI_4WIRE );
 
       if( eStatus != TP_ERR_NONE )
       {
@@ -521,17 +521,17 @@ BOOL ABCC_StartTransportProvider( void )
 
       break;
 
-     case TP_SERIAL:
+   case TP_SERIAL:
 
-       eStatus = TP_SerialOpen( xPathHandle, 57600, 8, TP_PARITY_NONE, TP_STOPBIT_ONE );
+      eStatus = TP_SerialOpen( xPathHandle, 57600, 8, TP_PARITY_NONE, TP_STOPBIT_ONE );
 
-       if( eStatus != TP_ERR_NONE )
-       {
-          ABCC_LOG_ERROR( ABCC_EC_HAL_ERR, (UINT32)eStatus, "TP_SerialOpen failed: %d\n", eStatus );
-          return( FALSE );
-       }
-        sys_bOpmode = ABP_OP_MODE_SERIAL_57_6;
-       break;
+      if( eStatus != TP_ERR_NONE )
+      {
+         ABCC_LOG_ERROR( ABCC_EC_HAL_ERR, (UINT32)eStatus, "TP_SerialOpen failed: %d\n", eStatus );
+         return( FALSE );
+      }
+       sys_bOpmode = ABP_OP_MODE_SERIAL_57_6;
+      break;
 
    default:
 
@@ -548,9 +548,9 @@ BOOL ABCC_StartTransportProvider( void )
 
 
 /*
- ** This function will close the transport provider connection.
- ** This function is called by the application at system shutdown.
- ** to release tranport provider recources
+ ** This function will close the Transport Provider connection.
+ ** It is called by the application at system shutdown
+ ** to release Transport Provider resources.
  */
 void ABCC_CloseTransportProvider( void )
 {
@@ -565,6 +565,7 @@ void ABCC_CloseTransportProvider( void )
       case TP_PARALLEL:
          TP_ParallelClose( xPathHandle );
          break;
+
       case TP_SERIAL:
          TP_SerialClose( xPathHandle );
 
