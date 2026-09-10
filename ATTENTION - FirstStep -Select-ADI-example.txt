@@ -1,0 +1,18 @@
+The first step when using this repo is to select the suitable ADI_example.
+
+This repo offers 4 different ADI examples:
+- A_speed_example 
+- B_simple_16	
+- C_separate_16
+- D_alltypes
+
+More details you can find in the corresponding file named abcc_network_data_parameters.c 
+inside corresponding subfolder within the folder ADI_examples.
+
+The recommendation is to start with the simplest example A_speed_example.
+
+Selection is done very easily:
+Just double click on the corresponding batch file (e.g. use_A.bat) to select the corresponding ADI_example 
+(e.g. A_speed_example).
+
+Have fun!

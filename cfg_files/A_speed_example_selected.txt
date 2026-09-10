@@ -1,0 +1,8 @@
+This set of device description files was created for the following ADI example:
+
+   A_speed_example
+
+When another ADI example will be selected, this set will be exchanged.
+
+For own applications, fitting description files have to be generated following
+our network guides and/or Generators.

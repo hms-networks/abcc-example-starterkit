@@ -160,4 +160,40 @@
 #define ABCC_CFG_LOG_STRINGS_ENABLED 1
 #define ABCC_CFG_LOG_COLORS_ENABLED 1
 
+
+/*------------------------------------------------------------------------------
+** #define ABCC_CFG_STRUCT_DATA_TYPE_ENABLED   1 - Enable / 0 - Disable
+**
+** Overwriting the default value of abcc_driver.h
+**
+** Enable/disable driver and AD object support for structured data types.
+** This define will affect the AD_AdiEntryType
+** (abcc_application_data_interface.h) used for defining the user ADI:s.
+**------------------------------------------------------------------------------
+*/
+#ifndef ABCC_CFG_STRUCT_DATA_TYPE_ENABLED
+#define ABCC_CFG_STRUCT_DATA_TYPE_ENABLED 0             
+#endif
+
+
+/*------------------------------------------------------------------------------
+** #define ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED   1 - Enable / 0 - Disable
+**
+** Overwriting the default value of abcc_driver.h
+**
+** Enable/disable driver support for triggering of callback notifications each
+** time an ADI is read or written. This define will affect the AD_AdiEntryType
+** (abcc_application_data_interface.h) used for defining the user ADI:s.
+** If an ADI is read by the network the callback is invoked before the action.
+** If an ADI is written by the network the callback is invoked after the action.
+**------------------------------------------------------------------------------
+*/
+#ifndef ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED
+#define ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED 0       
+#endif
+
+
+
+
+
 #endif  /* inclusion lock */

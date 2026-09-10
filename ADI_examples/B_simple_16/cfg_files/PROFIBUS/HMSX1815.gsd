@@ -1,0 +1,516 @@
+;===============================================================================
+; PROFIBUS Device Database of HMS Industrial Networks.
+;
+; Model:       Anybus CompactCom 40 DP-V1
+; Description: Anybus CompactCom 40 PROFIBUS DP-V1 slave
+;              Modules adapted for starterkit ADI mapping examples
+;              APPL_ADIMAP_SPEED_EXAMPLE
+;              APPL_ADIMAP_SIMPLE_16
+;              APPL_ADIMAP_SEPARATE_16
+;              APPL_ADIMAP_BOARD_IO
+; Language:    English
+; Author:      HMS Industrial Networks
+; WWW:         www.anybus.com
+;
+;===============================================================================
+#Profibus_DP
+
+GSD_Revision        = 5
+
+; Device identification
+Vendor_Name         = "HMS Industrial Networks"
+Model_Name          = "Anybus CompactCom 40 StarterKit"
+Revision            = "1.0"
+Ident_Number        = 0x1815
+Protocol_Ident      = 0                ; DP protocol
+Station_Type        = 0                ; Slave device
+FMS_supp            = 0                ; FMS not supported
+Slave_Family        = 0                ; General device
+Hardware_Release    = "Version 1"
+Software_Release    = "Version 1.07"
+Bitmap_Device       = "ABCC-40"
+
+; Supported hardware features
+Redundancy          = 0                ; not supported
+Repeater_Ctrl_Sig   = 2                ; TTL
+24V_Pins            = 0                ; not connected
+Implementation_Type = "NP40"
+
+; Supported DP features
+Freeze_Mode_supp    = 1                ; supported
+Sync_Mode_supp      = 1                ; supported
+Auto_Baud_supp      = 1                ; supported
+Set_Slave_Add_supp  = 1                ; supported
+Fail_Safe           = 1                ; supported
+
+; Maximum polling frequency
+Min_Slave_Intervall = 1                ; 100 us
+
+; I/O related keywords
+Modular_Station     = 1                ; modular
+Max_Module          = 1
+Max_Input_Len       = 244
+Max_Output_Len      = 244
+Max_Data_Len        = 488
+Modul_Offset        = 1
+
+; Parameterization related keywords
+Prm_Block_Structure_supp   = 1
+Max_User_Prm_Data_Len      = 3              ; To be changed if the application requests user parameter data
+Ext_User_Prm_Data_Const(0) = 0xC0,0x00,0x00
+
+; Diagnostic related keywords
+Max_Diag_Data_Len   = 244
+
+;================================================================================
+;======= SUPPORTED BAUDRATES ====================================================
+;================================================================================
+
+; Supported baudrates
+9.6_supp            = 1
+19.2_supp           = 1
+45.45_supp          = 1
+93.75_supp          = 1
+187.5_supp          = 1
+500_supp            = 1
+1.5M_supp           = 1
+3M_supp             = 1
+6M_supp             = 1
+12M_supp            = 1
+
+; Maximum responder time for supported baudrates
+MaxTsdr_9.6         = 15
+MaxTsdr_19.2        = 15
+MaxTsdr_45.45       = 15
+MaxTsdr_93.75       = 15
+MaxTsdr_187.5       = 15
+MaxTsdr_500         = 15
+MaxTsdr_1.5M        = 25
+MaxTsdr_3M          = 50
+MaxTsdr_6M          = 100
+MaxTsdr_12M         = 200
+
+;================================================================================
+;======= DPV1 FEATURES ==========================================================
+;================================================================================
+
+; DPV1 related keywords
+DPV1_Slave              = 1
+Check_Cfg_Mode          = 1
+
+C1_Read_Write_supp      = 1
+C1_Max_Data_Len         = 240
+C1_Response_Timeout     = 100  ;1 sec
+
+C2_Read_Write_supp      = 1
+C2_Max_Data_Len         = 240
+C2_Response_Timeout     = 100  ;1 sec
+C2_Max_Count_Channels   = 2
+Max_Initiate_PDU_Length = 52
+
+Ident_Maintenance_supp  = 1
+
+; Alarm
+Extra_Alarm_SAP_supp                  = 1
+Alarm_Sequence_Mode_Count             = 32
+Alarm_Type_Mode_supp                  = 1
+
+Diagnostic_Alarm_supp                 = 1
+Process_Alarm_supp                    = 0
+Pull_Plug_Alarm_supp                  = 0
+Status_Alarm_supp                     = 0
+Update_Alarm_supp                     = 0
+Manufacturer_Specific_Alarm_supp      = 0
+
+Diagnostic_Alarm_required             = 0
+Process_Alarm_required                = 0
+Pull_Plug_Alarm_required              = 0
+Status_Alarm_required                 = 0
+Update_Alarm_required                 = 0
+Manufacturer_Specific_Alarm_required  = 0
+
+;================================================================================
+;======= Informations of the Status diagnostic messages =========================
+;================================================================================
+
+;Status diagnostic messages
+Unit_Diag_Area=16-17
+Value(0)  = "Status not changed"
+Value(1)  = "Status appears"
+Value(2)  = "Status disappears"
+Unit_Diag_Area_End
+
+Unit_Diag_Area=24-31
+Value(0)   = "Minor, recoverable"
+Value(16)  = "Minor, unrecoverable"
+Value(32)  = "Major, recoverable"
+Unit_Diag_Area_End
+
+Unit_Diag_Area=32-39
+Value(16)  = "Generic Error"
+Value(32)  = "Current"
+Value(33)  = "Current, device input side"
+Value(34)  = "Current, inside the device"
+Value(35)  = "Current, device output side"
+Value(48)  = "Voltage"
+Value(49)  = "Mains Voltage"
+Value(50)  = "Voltage inside the device"
+Value(51)  = "Output Voltage"
+Value(64)  = "Temperature"
+Value(65)  = "Ambient Temperature"
+Value(66)  = "Device Temperature"
+Value(80)  = "Device Hardware"
+Value(96)  = "Device Software"
+Value(97)  = "Internal Software"
+Value(98)  = "User Software"
+Value(99)  = "Data Set"
+Value(112) = "Additional Modules"
+Value(128) = "Monitoring"
+Value(129) = "Communication"
+Value(130) = "Protocol Error"
+Value(144) = "External Error"
+Value(240) = "Additional Functions"
+Unit_Diag_Area_End
+
+;--------------------------------------
+; Diagnostic Texts for Module Status
+;--------------------------------------
+UnitDiagType = 130
+X_Unit_Diag_Area = 24-25
+X_Value(1) = "Slot 1: Module error"
+X_Value(2) = "Slot 1: wrong submodule"
+X_Value(3) = "Slot 1: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 26-27
+X_Value(1) = "Slot 2: Module error"
+X_Value(2) = "Slot 2: wrong submodule"
+X_Value(3) = "Slot 2: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 28-29
+X_Value(1) = "Slot 3: Module error"
+X_Value(2) = "Slot 3: wrong submodule"
+X_Value(3) = "Slot 3: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 30-31
+X_Value(1) = "Slot 4: Module error"
+X_Value(2) = "Slot 4: wrong submodule"
+X_Value(3) = "Slot 4: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 32-33
+X_Value(1) = "Slot 5: Module error"
+X_Value(2) = "Slot 5: wrong submodule"
+X_Value(3) = "Slot 5: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 34-35
+X_Value(1) = "Slot 6: Module error"
+X_Value(2) = "Slot 6: wrong submodule"
+X_Value(3) = "Slot 6: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 36-37
+X_Value(1) = "Slot 7: Module error"
+X_Value(2) = "Slot 7: wrong submodule"
+X_Value(3) = "Slot 7: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 38-39
+X_Value(1) = "Slot 8: Module error"
+X_Value(2) = "Slot 8: wrong submodule"
+X_Value(3) = "Slot 8: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 40-41
+X_Value(1) = "Slot 9: Module error"
+X_Value(2) = "Slot 9: wrong submodule"
+X_Value(3) = "Slot 9: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 42-43
+X_Value(1) = "Slot 10: Module error"
+X_Value(2) = "Slot 10: wrong submodule"
+X_Value(3) = "Slot 10: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 44-45
+X_Value(1) = "Slot 11: Module error"
+X_Value(2) = "Slot 11: wrong submodule"
+X_Value(3) = "Slot 11: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 46-47
+X_Value(1) = "Slot 12: Module error"
+X_Value(2) = "Slot 12: wrong submodule"
+X_Value(3) = "Slot 12: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 48-49
+X_Value(1) = "Slot 13: Module error"
+X_Value(2) = "Slot 13: wrong submodule"
+X_Value(3) = "Slot 13: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 50-51
+X_Value(1) = "Slot 14: Module error"
+X_Value(2) = "Slot 14: wrong submodule"
+X_Value(3) = "Slot 14: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 52-53
+X_Value(1) = "Slot 15: Module error"
+X_Value(2) = "Slot 15: wrong submodule"
+X_Value(3) = "Slot 15: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 54-55
+X_Value(1) = "Slot 16: Module error"
+X_Value(2) = "Slot 16: wrong submodule"
+X_Value(3) = "Slot 16: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 56-57
+X_Value(1) = "Slot 17: Module error"
+X_Value(2) = "Slot 17: wrong submodule"
+X_Value(3) = "Slot 17: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 58-59
+X_Value(1) = "Slot 18: Module error"
+X_Value(2) = "Slot 18: wrong submodule"
+X_Value(3) = "Slot 18: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 60-61
+X_Value(1) = "Slot 19: Module error"
+X_Value(2) = "Slot 19: wrong submodule"
+X_Value(3) = "Slot 19: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 62-63
+X_Value(1) = "Slot 20: Module error"
+X_Value(2) = "Slot 20: wrong submodule"
+X_Value(3) = "Slot 20: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 64-65
+X_Value(1) = "Slot 21: Module error"
+X_Value(2) = "Slot 21: wrong submodule"
+X_Value(3) = "Slot 21: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 66-67
+X_Value(1) = "Slot 22: Module error"
+X_Value(2) = "Slot 22: wrong submodule"
+X_Value(3) = "Slot 22: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 68-69
+X_Value(1) = "Slot 23: Module error"
+X_Value(2) = "Slot 23: wrong submodule"
+X_Value(3) = "Slot 23: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 70-71
+X_Value(1) = "Slot 24: Module error"
+X_Value(2) = "Slot 24: wrong submodule"
+X_Value(3) = "Slot 24: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 72-73
+X_Value(1) = "Slot 25: Module error"
+X_Value(2) = "Slot 25: wrong submodule"
+X_Value(3) = "Slot 25: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 74-75
+X_Value(1) = "Slot 26: Module error"
+X_Value(2) = "Slot 26: wrong submodule"
+X_Value(3) = "Slot 26: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 76-77
+X_Value(1) = "Slot 27: Module error"
+X_Value(2) = "Slot 27: wrong submodule"
+X_Value(3) = "Slot 27: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 78-79
+X_Value(1) = "Slot 28: Module error"
+X_Value(2) = "Slot 28: wrong submodule"
+X_Value(3) = "Slot 28: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 80-81
+X_Value(1) = "Slot 29: Module error"
+X_Value(2) = "Slot 29: wrong submodule"
+X_Value(3) = "Slot 29: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 82-83
+X_Value(1) = "Slot 30: Module error"
+X_Value(2) = "Slot 30: wrong submodule"
+X_Value(3) = "Slot 30: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 84-85
+X_Value(1) = "Slot 31: Module error"
+X_Value(2) = "Slot 31: wrong submodule"
+X_Value(3) = "Slot 31: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 86-87
+X_Value(1) = "Slot 32: Module error"
+X_Value(2) = "Slot 32: wrong submodule"
+X_Value(3) = "Slot 32: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 88-89
+X_Value(1) = "Slot 33: Module error"
+X_Value(2) = "Slot 33: wrong submodule"
+X_Value(3) = "Slot 33: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 90-91
+X_Value(1) = "Slot 34: Module error"
+X_Value(2) = "Slot 34: wrong submodule"
+X_Value(3) = "Slot 34: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 92-93
+X_Value(1) = "Slot 35: Module error"
+X_Value(2) = "Slot 35: wrong submodule"
+X_Value(3) = "Slot 35: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 94-95
+X_Value(1) = "Slot 36: Module error"
+X_Value(2) = "Slot 36: wrong submodule"
+X_Value(3) = "Slot 36: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 96-97
+X_Value(1) = "Slot 37: Module error"
+X_Value(2) = "Slot 37: wrong submodule"
+X_Value(3) = "Slot 37: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 98-99
+X_Value(1) = "Slot 38: Module error"
+X_Value(2) = "Slot 38: wrong submodule"
+X_Value(3) = "Slot 38: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 100-101
+X_Value(1) = "Slot 39: Module error"
+X_Value(2) = "Slot 39: wrong submodule"
+X_Value(3) = "Slot 39: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 102-103
+X_Value(1) = "Slot 40: Module error"
+X_Value(2) = "Slot 40: wrong submodule"
+X_Value(3) = "Slot 40: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 104-105
+X_Value(1) = "Slot 41: Module error"
+X_Value(2) = "Slot 41: wrong submodule"
+X_Value(3) = "Slot 41: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 106-107
+X_Value(1) = "Slot 42: Module error"
+X_Value(2) = "Slot 42: wrong submodule"
+X_Value(3) = "Slot 42: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 108-109
+X_Value(1) = "Slot 43: Module error"
+X_Value(2) = "Slot 43: wrong submodule"
+X_Value(3) = "Slot 43: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 110-111
+X_Value(1) = "Slot 44: Module error"
+X_Value(2) = "Slot 44: wrong submodule"
+X_Value(3) = "Slot 44: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 112-113
+X_Value(1) = "Slot 45: Module error"
+X_Value(2) = "Slot 45: wrong submodule"
+X_Value(3) = "Slot 45: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 114-115
+X_Value(1) = "Slot 46: Module error"
+X_Value(2) = "Slot 46: wrong submodule"
+X_Value(3) = "Slot 46: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 116-117
+X_Value(1) = "Slot 47: Module error"
+X_Value(2) = "Slot 47: wrong submodule"
+X_Value(3) = "Slot 47: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 118-119
+X_Value(1) = "Slot 48: Module error"
+X_Value(2) = "Slot 48: wrong submodule"
+X_Value(3) = "Slot 48: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 120-121
+X_Value(1) = "Slot 49: Module error"
+X_Value(2) = "Slot 49: wrong submodule"
+X_Value(3) = "Slot 49: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 122-123
+X_Value(1) = "Slot 50: Module error"
+X_Value(2) = "Slot 50: wrong submodule"
+X_Value(3) = "Slot 50: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 124-125
+X_Value(1) = "Slot 51: Module error"
+X_Value(2) = "Slot 51: wrong submodule"
+X_Value(3) = "Slot 51: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 126-127
+X_Value(1) = "Slot 52: Module error"
+X_Value(2) = "Slot 52: wrong submodule"
+X_Value(3) = "Slot 52: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 128-129
+X_Value(1) = "Slot 53: Module error"
+X_Value(2) = "Slot 53: wrong submodule"
+X_Value(3) = "Slot 53: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 130-131
+X_Value(1) = "Slot 54: Module error"
+X_Value(2) = "Slot 54: wrong submodule"
+X_Value(3) = "Slot 54: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 132-133
+X_Value(1) = "Slot 55: Module error"
+X_Value(2) = "Slot 55: wrong submodule"
+X_Value(3) = "Slot 55: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 134-135
+X_Value(1) = "Slot 56: Module error"
+X_Value(2) = "Slot 56: wrong submodule"
+X_Value(3) = "Slot 56: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 136-137
+X_Value(1) = "Slot 57: Module error"
+X_Value(2) = "Slot 57: wrong submodule"
+X_Value(3) = "Slot 57: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 138-139
+X_Value(1) = "Slot 58: Module error"
+X_Value(2) = "Slot 58: wrong submodule"
+X_Value(3) = "Slot 58: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 140-141
+X_Value(1) = "Slot 59: Module error"
+X_Value(2) = "Slot 59: wrong submodule"
+X_Value(3) = "Slot 59: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 142-143
+X_Value(1) = "Slot 60: Module error"
+X_Value(2) = "Slot 60: wrong submodule"
+X_Value(3) = "Slot 60: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 144-145
+X_Value(1) = "Slot 61: Module error"
+X_Value(2) = "Slot 61: wrong submodule"
+X_Value(3) = "Slot 61: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 146-147
+X_Value(1) = "Slot 62: Module error"
+X_Value(2) = "Slot 62: wrong submodule"
+X_Value(3) = "Slot 62: no submodule"
+X_Unit_Diag_Area_End
+X_Unit_Diag_Area = 148-149
+X_Value(1) = "Slot 63: Module error"
+X_Value(2) = "Slot 63: wrong submodule"
+X_Value(3) = "Slot 63: no submodule"
+X_Unit_Diag_Area_End
+EndUnitDiagType
+
+;================================================================================
+;======= EXAMPLE DEFINITIONS OF MODULES =========================================
+;================================================================================
+
+; USED FOR STARTERKIT
+Module = "APPL_ADIMAP_SPEED_EXAMPLE" 0x43,0xC0,0x00,0x01,0x00,0x83,0xC0,0x00,0x02,0x00
+1
+EndModule
+;
+Module = "APPL_ADIMAP_SIMPLE_16" 0x43,0xDF,0x00,0x01,0x00,0x83,0xDF,0x00,0x02,0x00
+2
+EndModule
+;
+Module = "APPL_ADIMAP_SEPARATE_16" 0x83,0xDF,0x00,0x0A,0x00,0x43,0xDF,0x00,0x0B,0x00
+3
+EndModule
+;
+Module = "APPL_ADIMAP_ALLTYPES" 0x83,0xC1,0x00,0x14,0x00,0x43,0xC1,0x00,0x15,0x00,0x83,0xC1,0x00,0x16,0x00,0x43,0xC1,0x00,0x17,0x00,0x83,0xC0,0x00,0x18,0x00,0x43,0xC0,0x00,0x19,0x00,0x83,0xC0,0x00,0x1A,0x00,0x43,0xC0,0x00,0x1B,0x00,0x83,0xC0,0x00,0x1C,0x00,0x43,0xC0,0x00,0x1D,0x00,0x83,0x80,0x00,0x1E,0x00,0x43,0x80,0x00,0x1F,0x00,0x83,0x80,0x00,0x20,0x00,0x43,0x80,0x00,0x21,0x00,0x83,0x80,0x00,0x22,0x00,0x43,0x80,0x00,0x23,0x00,0x83,0x80,0x00,0x24,0x00,0x83,0x80,0x00,0x00,0x00,0x43,0x80,0x00,0x25,0x00,0x43,0x80,0x00,0x00,0x00,0x83,0xCA,0x00,0x26,0x00,0x43,0xC1,0x00,0x27,0x00,0x43,0xC1,0x00,0x27,0x00,0x43,0xC0,0x00,0x27,0x00,0x43,0xC0,0x00,0x27,0x00,0x43,0xC0,0x00,0x27,0x00, 0x43,0x80,0x00,0x27,0x00,0x43,0x80,0x00,0x27,0x00,0x43,0x80,0x00,0x27,0x00,0x43,0x80,0x00,0x27,0x00,0x43,0x80,0x00,0x27,0x00,0x43,0x80,0x00,0x27,0x00,0x43,0x80,0x00,0x27,0x00,0x43,0x80,0x00,0x27,0x00,0x43,0x80,0x00,0x27,0x00,0x43,0x80,0x00,0x27,0x00,0x43,0x80,0x00,0x27,0x00,0x43,0x80,0x00,0x27,0x00
+4
+EndModule
+;

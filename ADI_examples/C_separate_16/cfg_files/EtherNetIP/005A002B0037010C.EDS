@@ -1,0 +1,466 @@
+$ HMS EDS Generator Tool Version 1.3.1.1. Generated Electronic Data Sheet.
+
+[File]
+        DescText = "CompactCom 40 EtherNet/IP(TM)";
+        CreateDate = 09-03-2026;
+        CreateTime = 15:18:23;
+        ModDate = 09-03-2026;
+        ModTime = 15:18:23;
+        Revision = 1.00;
+
+
+[Device]
+        VendCode = 90;
+        VendName = "HMS Industrial Networks AB";
+        ProdType = 43;
+        ProdTypeStr = "Generic Device (keyable)";
+        ProdCode = 55;
+        MajRev = 1;
+        MinRev = 67;
+        ProdName = "CompactCom 40 EtherNet/IP(TM)";
+        Catalog = "CompactCom 40 EtherNet/IP(TM)";
+
+
+[Device Classification]
+        Class1 = EtherNetIP;
+
+
+[Params]
+        Param3 =
+                0,                      $ Reserved (always 0)
+                0,                      $ Link path size
+                "",                     $ Link path
+                0x0000,                 $ Descriptor
+                0xC7,                   $ Data type (Unsigned 16–bit integer value)
+                2,                      $ Data size
+                "ABP_UINT16_COUNTER",   $ Parameter name
+                "",                     $ Units string
+                "",                     $ Help string
+                0,                      $ Minimum value
+                65535,                  $ Maximum value
+                0,                      $ default value
+                ,                       $ Scaling multiplier (not used)
+                ,                       $ Scaling divider (not used)
+                ,                       $ Scaling base (not used)
+                ,                       $ Scaling offset (not used)
+                ,                       $ Multiplier link (not used)
+                ,                       $ Divisor link (not used)
+                ,                       $ Base link (not used)
+                ,                       $ Offset link (not used)
+                ;                       $ Decimal precision (not used)
+        Param4 =
+                0,                      $ Reserved (always 0)
+                ,                       $ Link path size
+                ,                       $ Link path
+                0x0000,                 $ Descriptor
+                0xC8,                   $ Data type (Unsigned 32–bit integer value)
+                4,                      $ Data size
+                "RPI range",            $ Parameter name
+                "",                     $ Units string
+                "",                     $ Help string
+                1000,                   $ Minimum value
+                3200000,                $ Maximum value
+                10000,                  $ default value
+                ,                       $ Scaling multiplier (not used)
+                ,                       $ Scaling divider (not used)
+                ,                       $ Scaling base (not used)
+                ,                       $ Scaling offset (not used)
+                ,                       $ Multiplier link (not used)
+                ,                       $ Divisor link (not used)
+                ,                       $ Base link (not used)
+                ,                       $ Offset link (not used)
+                ;                       $ Decimal precision (not used)
+
+
+[Assembly]
+        Revision = 2;
+        MaxInst = 150;
+        Number_Of_Static_Instances = 6;
+        Max_Number_Of_Dynamic_Instances = 0;
+        Object_Name = "Assembly Object";
+        Object_Class_code = 0x00000004;
+        Assem3 =
+                "Heartbeat, Input Only",$ Name
+                ,                       $ Path
+                0,                      $ Size
+                0x0001,                 $ Descriptor
+                ,                       $ Reserved
+                ,                       $ Reserved
+                0,                      $ Member size
+                ;                       $ Member reference
+        Assem4 =
+                "Heartbeat, Listen Only",$ Name
+                ,                       $ Path
+                0,                      $ Size
+                0x0001,                 $ Descriptor
+                ,                       $ Reserved
+                ,                       $ Reserved
+                0,                      $ Member size
+                ;                       $ Member reference
+        Assem6 =
+                "Heartbeat, Input Only Extended",$ Name
+                ,                       $ Path
+                0,                      $ Size
+                0x0001,                 $ Descriptor
+                ,                       $ Reserved
+                ,                       $ Reserved
+                0,                      $ Member size
+                ;                       $ Member reference
+        Assem7 =
+                "Heartbeat, Listen Only Extended",$ Name
+                ,                       $ Path
+                0,                      $ Size
+                0x0001,                 $ Descriptor
+                ,                       $ Reserved
+                ,                       $ Reserved
+                0,                      $ Member size
+                ;                       $ Member reference
+        Assem150 =
+                "Consuming Data",       $ Name
+                ,                       $ Path
+                64,                     $ Size
+                0x0001,                 $ Descriptor
+                ,                       $ Reserved
+                ,                       $ Reserved
+                512,                    $ Member size
+                ;                       $ Member reference
+        Assem100 =
+                "Producing Data",       $ Name
+                ,                       $ Path
+                64,                     $ Size
+                0x0001,                 $ Descriptor
+                ,                       $ Reserved
+                ,                       $ Reserved
+                512,                    $ Member size
+                ;                       $ Member reference
+
+
+[Connection Manager]
+        Revision = 1;
+        MaxInst = 1;
+        Number_Of_Static_Instances = 1;
+        Max_Number_Of_Dynamic_Instances = 0;
+        Object_Name = "Connection Manager Object";
+        Object_Class_code = 0x00000005;
+        Connection1 =
+                0x04030002,             $ Trigger and transport mask
+                                        $ Supported transport classes: class 1
+                                        $ Supported triggers: cyclic, change of state
+                                        $ Application type: exclusive-owner
+                                        $ Direction: client
+                0x77640405,             $ Connection parameters
+                                        $ O->T supported size type(s): Fixed
+                                        $ T->O supported size type(s): Fixed
+                                        $ O->T real time transfer format: 32-bit run/idle header
+                                        $ T->O real time transfer format: connection is pure data and is modeless
+                                        $ O->T supported connection type(s): point-to-point
+                                        $ T->O supported connection type(s): multicast, point-to-point
+                                        $ O->T supported priorities: low, high, scheduled
+                                        $ T->O supported priorities: low, high, scheduled
+                Param4,                 $ O->T RPI
+                64,                     $ O->T size
+                Assem150,               $ O->T format
+                Param4,                 $ T->O RPI
+                64,                     $ T->O size
+                Assem100,               $ T->O format
+                ,                       $ Proxy config size (not used)
+                ,                       $ Proxy config format (not used)
+                ,                       $ Target config size (no config data)
+                ,                       $ Target config format (not used)
+                "Exclusive owner",      $ Connection name string
+                "",                     $ Help string
+                "20 04 24 00 2C 96 2C 64";$ Path
+        Connection2 =
+                0x01030002,             $ Trigger and transport mask
+                                        $ Supported transport classes: class 1
+                                        $ Supported triggers: cyclic, change of state
+                                        $ Application type: listen-only
+                                        $ Direction: client
+                0x77240305,             $ Connection parameters
+                                        $ O->T supported size type(s): Fixed
+                                        $ T->O supported size type(s): Fixed
+                                        $ O->T real time transfer format: heartbeat
+                                        $ T->O real time transfer format: connection is pure data and is modeless
+                                        $ O->T supported connection type(s): point-to-point
+                                        $ T->O supported connection type(s): multicast
+                                        $ O->T supported priorities: low, high, scheduled
+                                        $ T->O supported priorities: low, high, scheduled
+                Param4,                 $ O->T RPI
+                0,                      $ O->T size
+                Assem4,                 $ O->T format
+                Param4,                 $ T->O RPI
+                64,                     $ T->O size
+                Assem100,               $ T->O format
+                ,                       $ Proxy config size (not used)
+                ,                       $ Proxy config format (not used)
+                ,                       $ Target config size (no config data)
+                ,                       $ Target config format (not used)
+                "Listen only",          $ Connection name string
+                "",                     $ Help string
+                "20 04 24 00 2C 04 2C 64";$ Path
+        Connection3 =
+                0x02030002,             $ Trigger and transport mask
+                                        $ Supported transport classes: class 1
+                                        $ Supported triggers: cyclic, change of state
+                                        $ Application type: input-only
+                                        $ Direction: client
+                0x77640305,             $ Connection parameters
+                                        $ O->T supported size type(s): Fixed
+                                        $ T->O supported size type(s): Fixed
+                                        $ O->T real time transfer format: heartbeat
+                                        $ T->O real time transfer format: connection is pure data and is modeless
+                                        $ O->T supported connection type(s): point-to-point
+                                        $ T->O supported connection type(s): multicast, point-to-point
+                                        $ O->T supported priorities: low, high, scheduled
+                                        $ T->O supported priorities: low, high, scheduled
+                Param4,                 $ O->T RPI
+                0,                      $ O->T size
+                Assem3,                 $ O->T format
+                Param4,                 $ T->O RPI
+                64,                     $ T->O size
+                Assem100,               $ T->O format
+                ,                       $ Proxy config size (not used)
+                ,                       $ Proxy config format (not used)
+                ,                       $ Target config size (no config data)
+                ,                       $ Target config format (not used)
+                "Input only",           $ Connection name string
+                "",                     $ Help string
+                "20 04 24 00 2C 03 2C 64";$ Path
+        Connection4 =
+                0x01030002,             $ Trigger and transport mask
+                                        $ Supported transport classes: class 1
+                                        $ Supported triggers: cyclic, change of state
+                                        $ Application type: listen-only
+                                        $ Direction: client
+                0x77240305,             $ Connection parameters
+                                        $ O->T supported size type(s): Fixed
+                                        $ T->O supported size type(s): Fixed
+                                        $ O->T real time transfer format: heartbeat
+                                        $ T->O real time transfer format: connection is pure data and is modeless
+                                        $ O->T supported connection type(s): point-to-point
+                                        $ T->O supported connection type(s): multicast
+                                        $ O->T supported priorities: low, high, scheduled
+                                        $ T->O supported priorities: low, high, scheduled
+                Param4,                 $ O->T RPI
+                0,                      $ O->T size
+                Assem7,                 $ O->T format
+                Param4,                 $ T->O RPI
+                64,                     $ T->O size
+                Assem100,               $ T->O format
+                ,                       $ Proxy config size (not used)
+                ,                       $ Proxy config format (not used)
+                ,                       $ Target config size (no config data)
+                ,                       $ Target config format (not used)
+                "Listen only extended", $ Connection name string
+                "",                     $ Help string
+                "20 04 24 00 2C 07 2C 64";$ Path
+        Connection5 =
+                0x02030002,             $ Trigger and transport mask
+                                        $ Supported transport classes: class 1
+                                        $ Supported triggers: cyclic, change of state
+                                        $ Application type: input-only
+                                        $ Direction: client
+                0x77640305,             $ Connection parameters
+                                        $ O->T supported size type(s): Fixed
+                                        $ T->O supported size type(s): Fixed
+                                        $ O->T real time transfer format: heartbeat
+                                        $ T->O real time transfer format: connection is pure data and is modeless
+                                        $ O->T supported connection type(s): point-to-point
+                                        $ T->O supported connection type(s): multicast, point-to-point
+                                        $ O->T supported priorities: low, high, scheduled
+                                        $ T->O supported priorities: low, high, scheduled
+                Param4,                 $ O->T RPI
+                0,                      $ O->T size
+                Assem6,                 $ O->T format
+                Param4,                 $ T->O RPI
+                64,                     $ T->O size
+                Assem100,               $ T->O format
+                ,                       $ Proxy config size (not used)
+                ,                       $ Proxy config format (not used)
+                ,                       $ Target config size (no config data)
+                ,                       $ Target config format (not used)
+                "Input only extended",  $ Connection name string
+                "",                     $ Help string
+                "20 04 24 00 2C 06 2C 64";$ Path
+
+
+[Capacity]
+        MaxIOConnections = 4;
+        MaxMsgConnections = 6;
+        TSpec1 =                        $ 1000 packets per sec @ 1 bytes
+                TxRx,
+                1,                      $ Connection size
+                1000;                   $ Packets per second
+        TSpec2 =                        $ 1000 packets per sec @ 256 bytes
+                TxRx,
+                256,                    $ Connection size
+                1000;                   $ Packets per second
+
+
+[DLR Class]
+        Revision = 3;
+        MaxInst = 1;
+        Number_Of_Static_Instances = 1;
+        Max_Number_Of_Dynamic_Instances = 0;
+        Class_Attributes = 1;
+        Instance_Attributes =
+                1,
+                2,
+                10,
+                12;
+        Class_Services =
+                0x01,
+                0x0E;
+        Instance_Services =
+                0x01,
+                0x0E;
+        Object_Name = "DLR Object";
+        Object_Class_code = 0x00000047;
+        Ring_Supervisor_Capable = No;
+
+
+[QoS Class]
+        Revision = 1;
+        MaxInst = 1;
+        Number_Of_Static_Instances = 1;
+        Max_Number_Of_Dynamic_Instances = 0;
+        Class_Attributes = 1;
+        Instance_Attributes =
+                1,
+                4,
+                5,
+                6,
+                7,
+                8,
+                11,
+                12,
+                13,
+                14,
+                15;
+        Class_Services = 0x0E;
+        Instance_Services =
+                0x0E,
+                0x10;
+        Object_Name = "QoS Object";
+        Object_Class_code = 0x00000048;
+
+
+[TCP/IP Interface Class]
+        Revision = 4;
+        MaxInst = 1;
+        Number_Of_Static_Instances = 1;
+        Max_Number_Of_Dynamic_Instances = 0;
+        Class_Attributes =
+                1,
+                2,
+                3,
+                6,
+                7;
+        Instance_Attributes =
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                8,
+                9,
+                10,
+                11,
+                13;
+        Class_Services =
+                0x01,
+                0x0E;
+        Instance_Services =
+                0x01,
+                0x0E,
+                0x10;
+        Object_Name = "TCP/IP Interface Object";
+        Object_Class_code = 0x000000F5;
+
+
+[Ethernet Link Class]
+        Revision = 4;
+        MaxInst = 3;
+        Number_Of_Static_Instances = 3;
+        Max_Number_Of_Dynamic_Instances = 0;
+        Class_Attributes =
+                1,
+                2,
+                3,
+                6,
+                7;
+        Instance_Attributes =
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11;
+        Class_Services =
+                0x01,
+                0x0E;
+        Instance_Services =
+                0x01,
+                0x0E,
+                0x10,
+                0x4C;
+        Object_Name = "Ethernet Link Object";
+        Object_Class_code = 0x000000F6;
+        InterfaceLabel1 = "Port 1";
+        InterfaceLabel2 = "Port 2";
+        InterfaceLabel3 = "Internal";
+        InterfaceType1 = 2;
+        InterfaceType2 = 2;
+        InterfaceType3 = 1;
+
+
+[LLDP Management Class]
+        Revision = 1;
+        MaxInst = 1;
+        Number_Of_Static_Instances = 1;
+        Max_Number_Of_Dynamic_Instances = 0;
+        Instance_Attributes =
+                1,
+                2,
+                3,
+                4,
+                5;
+        Instance_Services =
+                0x0E,
+                0x10;
+        Object_Name = "LLDP Management Object";
+        Object_Class_code = 0x00000109;
+
+
+[LLDP Data Table Class]
+        Revision = 1;
+        MaxInst = 8;
+        Number_Of_Static_Instances = 0;
+        Max_Number_Of_Dynamic_Instances = 8;
+        Class_Attributes =
+                2,
+                3;
+        Instance_Attributes =
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9;
+        Class_Services =
+                0x0E,
+                0x11;
+        Instance_Services = 0x0E;
+        Object_Name = "LLDP Data Table Object";
+        Object_Class_code = 0x0000010A;
+
+

@@ -1,0 +1,198 @@
+/*******************************************************************************
+** Copyright 2025-present HMS Industrial Networks AB.
+** Licensed under the MIT License.
+********************************************************************************
+** File Description:
+** User configuration of the ABCC driver. The configuration parameters are
+** documented in the driver's public interface abcc_config.h.
+**
+** Configuration options with default values defined in abcc_config.h will be
+** used unless overriden here.
+********************************************************************************
+*/
+
+#ifndef ABCC_DRV_CFG_H_
+#define ABCC_DRV_CFG_H_
+
+#include "abcc_types.h"
+#include "abp.h"
+
+/*------------------------------------------------------------------------------
+** All interface drivers are supported.
+**------------------------------------------------------------------------------
+*/
+#define ABCC_CFG_DRV_PARALLEL_ENABLED              1
+#define ABCC_CFG_DRV_SPI_ENABLED                   1
+#define ABCC_CFG_DRV_SERIAL_ENABLED                1
+
+/*------------------------------------------------------------------------------
+** The software can both get the operating mode from external resource and set
+** the selected operating mode to the ABCC host connector.
+**------------------------------------------------------------------------------
+*/
+#define ABCC_CFG_OP_MODE_GETTABLE                  1
+#define ABCC_CFG_OP_MODE_SETTABLE                  1
+
+/*------------------------------------------------------------------------------
+** ABCC memory access configuration for parallel operating modes
+**------------------------------------------------------------------------------
+*/
+#define ABCC_CFG_MEMORY_MAPPED_ACCESS_ENABLED      0
+
+/*------------------------------------------------------------------------------
+** Module identification configuration
+**------------------------------------------------------------------------------
+*/
+#define ABCC_CFG_MODULE_ID_PINS_CONN               1
+
+/*------------------------------------------------------------------------------
+** Module detection configuration
+**------------------------------------------------------------------------------
+*/
+#define ABCC_CFG_MOD_DETECT_PINS_CONN              1
+
+/*------------------------------------------------------------------------------
+** Configuration of message handling
+**------------------------------------------------------------------------------
+*/
+#define ABCC_CFG_MAX_NUM_APPL_CMDS                 ( 4 )
+#define ABCC_CFG_MAX_NUM_ABCC_CMDS                 ( 4 )
+#define ABCC_CFG_MAX_PROCESS_DATA_SIZE             ( 4096 )
+
+/*------------------------------------------------------------------------------
+** Interrupt configuration excluding sync
+**------------------------------------------------------------------------------
+*/
+#define ABCC_CFG_POLL_ABCC_IRQ_PIN_ENABLED         1
+#define ABCC_CFG_INT_ENABLED                       0
+
+#if( ABCC_CFG_INT_ENABLED )
+   #define ABCC_CFG_INT_ENABLE_MASK_PAR            ( ABP_INTMASK_RDPDIEN | ABP_INTMASK_STATUSIEN | ABP_INTMASK_RDMSGIEN | ABP_INTMASK_WRMSGIEN | ABP_INTMASK_ANBRIEN  )
+   #define ABCC_CFG_INT_ENABLE_MASK_SPI            ( 0 )
+   #define ABCC_CFG_HANDLE_INT_IN_ISR_MASK         ( ABP_INTMASK_RDPDIEN )
+#endif
+
+/*------------------------------------------------------------------------------
+** Assume firmware update on initial communication timeout.
+**------------------------------------------------------------------------------
+*/
+#define ABCC_CFG_DRV_ASSUME_FW_UPDATE_ENABLED      1
+
+/*------------------------------------------------------------------------------
+** Anybus objects to support.
+**------------------------------------------------------------------------------
+*/
+#define ANB_FSI_OBJ_ENABLE                         1
+#define DI_OBJ_ENABLE                              0
+
+/*------------------------------------------------------------------------------
+** Host application objects to support.
+**------------------------------------------------------------------------------
+*/
+#define ASM_OBJ_ENABLE                             0
+#define ETN_OBJ_ENABLE                             0
+#define SYNC_OBJ_ENABLE                            0
+
+#define PRT_OBJ_ENABLE                             1
+#define EIP_OBJ_ENABLE                             1
+#define ECT_OBJ_ENABLE                             0
+#define MOD_OBJ_ENABLE                             1
+#define BAC_OBJ_ENABLE                             0
+#define EPL_OBJ_ENABLE                             0
+#define DPV1_OBJ_ENABLE                            0
+#define DEV_OBJ_ENABLE                             0
+#define COP_OBJ_ENABLE                             0
+#define CCL_OBJ_ENABLE                             0
+#define CFN_OBJ_ENABLE                             0
+#define CIET_OBJ_ENABLE                            0
+
+/*------------------------------------------------------------------------------
+** Command response list
+**
+** Contains macros describing what command shall be responded to and how.
+** See abcc_api_command_handler_lookup.h to find available command response
+** macros and associated callback function definitions.
+**
+** Note: the associated object must be enabled via its _OBJ_ENABLE macro for a
+** command response entry to take effect.
+**------------------------------------------------------------------------------
+*/
+#define ABCC_API_COMMAND_RESPONSE_LIST \
+   ABCC_APPLICATION_OBJ_OA_RESET_CBFUNC, \
+   ABCC_APPLICATION_OBJ_OA_RESET_REQUEST_CBFUNC, \
+   ABCC_APPLICATION_OBJ_FW_AVAILABLE_GET_CBFUNC, \
+   ABCC_APPLICATION_OBJ_FW_AVAILABLE_SET_CBFUNC, \
+   /*ABCC_APPLICATION_OBJ_SERIAL_NR_GET_CBFUNC,*/ \
+   /*ABCC_APPLICATION_OBJ_PRODUCT_NAME_GET_CBFUNC,*/ \
+   /*ABCC_APPLICATION_OBJ_VENDOR_NAME_GET_VALUE("My Company Name"),*/ \
+   /*ABCC_ETHERNETIP_OBJ_VENDOR_ID_GET_VALUE(0xBEEF),*/ \
+   /*ABCC_ETHERNETIP_OBJ_DEVICE_TYPE_GET_CBFUNC,*/ \
+   /*ABCC_ETHERNETIP_OBJ_PRODUCT_CODE_GET_CBFUNC,*/ \
+   /*ABCC_ETHERNETIP_OBJ_REVISION_GET_VALUE( "\x44\x43" ),*/ \
+   /*ABCC_PROFINET_OBJ_VENDOR_ID_GET_VALUE(0xDEAD),*/ \
+   /*ABCC_PROFINET_OBJ_DEVICE_ID_GET_CBFUNC,*/ \
+   /*ABCC_PROFINET_OBJ_ORDER_ID_GET_CBFUNC,*/
+
+/*------------------------------------------------------------------------------
+** Debug and error macro configuration
+**------------------------------------------------------------------------------
+*/
+#define ABCC_CFG_MESSAGE_SIZE_CHECK_ENABLED      1
+
+/*------------------------------------------------------------------------------
+** Debug level configuration
+**
+** Configures the level of debug logging.
+**
+** One of:
+** ABCC_LOG_SEVERITY_DISABLED
+** ABCC_LOG_SEVERITY_FATAL_ENABLED
+** ABCC_LOG_SEVERITY_ERROR_ENABLED
+** ABCC_LOG_SEVERITY_WARNING_ENABLED
+** ABCC_LOG_SEVERITY_INFO_ENABLED
+** ABCC_LOG_SEVERITY_DEBUG_ENABLED
+**------------------------------------------------------------------------------
+*/
+#define ABCC_CFG_LOG_SEVERITY ABCC_LOG_SEVERITY_INFO_ENABLED
+#define ABCC_CFG_LOG_FILE_LINE_ENABLED 1
+#define ABCC_CFG_LOG_TIMESTAMPS_ENABLED 1
+#define ABCC_CFG_LOG_STRINGS_ENABLED 1
+#define ABCC_CFG_LOG_COLORS_ENABLED 1
+
+
+/*------------------------------------------------------------------------------
+** #define ABCC_CFG_STRUCT_DATA_TYPE_ENABLED   1 - Enable / 0 - Disable
+**
+** Overwriting the default value of abcc_driver.h
+**
+** Enable/disable driver and AD object support for structured data data types.
+** This define will affect the AD_AdiEntryType
+** (abcc_application_data_interface.h) used for defining the user ADI:s.
+**------------------------------------------------------------------------------
+*/
+#ifndef ABCC_CFG_STRUCT_DATA_TYPE_ENABLED
+#define ABCC_CFG_STRUCT_DATA_TYPE_ENABLED 0             
+#endif
+
+
+/*------------------------------------------------------------------------------
+** #define ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED   1 - Enable / 0 - Disable
+**
+** Overwriting the default value of abcc_driver.h
+**
+** Enable/disable driver support for triggering of callback notifications each
+** time an ADI is read or written. This define will affect the AD_AdiEntryType
+** (abcc_application_data_interface.h) used for defining the user ADI:s.
+** If an ADI is read by the network the callback is invoked before the action.
+** If an ADI is written by the network the callback is invoked after the action.
+**------------------------------------------------------------------------------
+*/
+#ifndef ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED
+#define ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED 0       
+#endif
+
+
+
+
+
+#endif  /* inclusion lock */
