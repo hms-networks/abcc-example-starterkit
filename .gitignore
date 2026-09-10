@@ -11,3 +11,4 @@ CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
 /build
+/ADI_examples/Backup_Last_ADI_example
