@@ -1,18 +1,17 @@
-The first step when using this repo is to select the suitable ADI_example.
+Start by selecting one of the four ADI examples included in this repository:
 
-This repo offers 4 different ADI examples:
-- A_speed_example 
-- B_simple_16	
-- C_separate_16
-- D_alltypes
+A_speed_example   use_A.bat   Simplest example — recommended starting point
+B_simple_16       use_B.bat   
+C_separate_16     use_C.bat   
+D_alltypes        use_D.bat   Covers all supported data types
 
-More details you can find in the corresponding file named abcc_network_data_parameters.c 
-inside corresponding subfolder within the folder ADI_examples.
+Each example resides in its own subfolder under ADI_examples/ and is fully defined
+in the abcc_network_data_parameters.c file found there. Refer to that file for
+details about the ADI setup of a given example.
 
-The recommendation is to start with the simplest example A_speed_example.
+To select an example, simply double-click its corresponding batch file
+(e.g. use_A.bat selects A_speed_example).
 
-Selection is done very easily:
-Just double click on the corresponding batch file (e.g. use_A.bat) to select the corresponding ADI_example 
-(e.g. A_speed_example).
+If you are unsure where to begin, start with A_speed_example — it is the simplest one.
 
 Have fun!

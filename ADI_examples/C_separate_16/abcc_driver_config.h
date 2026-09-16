@@ -7,7 +7,7 @@
 ** documented in the driver's public interface abcc_config.h.
 **
 ** Configuration options with default values defined in abcc_config.h will be
-** used unless overriden here.
+** used unless overridden here.
 ********************************************************************************
 */
 
@@ -159,7 +159,6 @@
 #define ABCC_CFG_LOG_STRINGS_ENABLED 1
 #define ABCC_CFG_LOG_COLORS_ENABLED 1
 
-
 /*------------------------------------------------------------------------------
 ** #define ABCC_CFG_STRUCT_DATA_TYPE_ENABLED   1 - Enable / 0 - Disable
 **
@@ -170,10 +169,7 @@
 ** (abcc_application_data_interface.h) used for defining the user ADI:s.
 **------------------------------------------------------------------------------
 */
-#ifndef ABCC_CFG_STRUCT_DATA_TYPE_ENABLED
 #define ABCC_CFG_STRUCT_DATA_TYPE_ENABLED 0             
-#endif
-
 
 /*------------------------------------------------------------------------------
 ** #define ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED   1 - Enable / 0 - Disable
@@ -187,12 +183,7 @@
 ** If an ADI is written by the network the callback is invoked after the action.
 **------------------------------------------------------------------------------
 */
-#ifndef ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED
 #define ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED 1       
-#endif
-
-
-
 
 
 #endif  /* inclusion lock */
