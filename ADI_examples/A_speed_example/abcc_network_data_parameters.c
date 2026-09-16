@@ -51,7 +51,7 @@ static AD_UINT16Type appl_sUint16Prop = { { 0, 0xFFFF, 0 } };
 const AD_AdiEntryType ABCC_API_asAdiEntryList[] =
 {
    { 0x1, "SPEED",     ABP_UINT16, 1, AD_ADI_DESC___W_G, { { &appl_iSpeed,    &appl_sUint16Prop } } },
-   { 0x2, "REF_SPEED", ABP_UINT16, 1, AD_ADI_DESC__R_S_, { { &appl_iRefSpeed, &appl_sUint16Prop } } }
+   { 0x2, "REF_SPEED", ABP_UINT16, 1, AD_ADI_DESC__R_SG, { { &appl_iRefSpeed, &appl_sUint16Prop } } }
 };
 
 

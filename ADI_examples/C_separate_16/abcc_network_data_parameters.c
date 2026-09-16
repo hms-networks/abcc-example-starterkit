@@ -59,9 +59,9 @@ static UINT16  appl_Uint16_12 = 0;
 */
 const AD_AdiEntryType ABCC_API_asAdiEntryList[] =
 {
-   { 10, "ABP_UINT16_SET",     ABP_UINT16, 32, AD_ADI_DESC__R_S_, { { appl_aiUint16_10, NULL } }, NULL, SetAdi10Value },
+   { 10, "ABP_UINT16_SET",     ABP_UINT16, 32, AD_ADI_DESC__R_SG, { { appl_aiUint16_10, NULL } }, NULL, SetAdi10Value },
    { 11, "ABP_UINT16_GET",     ABP_UINT16, 32, AD_ADI_DESC___W_G, { { appl_aiUint16_11, NULL } }, GetAdi11Value, NULL },
-   { 12, "ABP_UINT16_COUNTER", ABP_UINT16, 1,  AD_ADI_DESC____S_,  { { &appl_Uint16_12, NULL  } }, NULL, NULL          },
+   { 12, "ABP_UINT16_COUNTER", ABP_UINT16, 1,  AD_ADI_DESC____SG,  { { &appl_Uint16_12, NULL  } }, NULL, NULL          },
 };
 
 
@@ -106,7 +106,7 @@ static void GetAdi11Value( const struct AD_AdiEntry* psAdiEntry, UINT8 bNumEleme
 static void SetAdi10Value( const struct AD_AdiEntry* psAdiEntry, UINT8 bNumElements, UINT8 bStartIndex )
 {
    UINT8 index;
-   for (index = bStartIndex; index < bStartIndex + bNumElements; index++)
+   for ( index = bStartIndex; index < bStartIndex + bNumElements; index++ )
    {
       appl_aiUint16_11[ index ] = appl_aiUint16_10[ index ];
    }

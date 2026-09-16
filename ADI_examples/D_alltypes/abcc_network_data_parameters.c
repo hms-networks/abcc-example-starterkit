@@ -6,7 +6,7 @@
 ** ADI example "D_alltypes"
 ** 
 ** File Description:
-** Example of an ADI setup with 11 ADIs demonstrating all supported data types,
+** Example of an ADI setup with 20 ADIs demonstrating all supported data types,
 ** including structured data types.
 **
 ** Ensure the following definitions, if defined in abcc_driver_config.h,
@@ -62,33 +62,33 @@ APPL_AdiType APPL_StructAdi;
 */
 static const AD_StructDataType appl_AdiReadStruct[] =
 {
- /* Index: 0 */  { "ABP_UINT32", ABP_UINT32, 1, AD_ADI_DESC__R_S_,  0,  { { &APPL_StructAdi.lUint32,      NULL } } },
- /* Index: 1 */  { "ABP_SINT32", ABP_SINT32, 1, AD_ADI_DESC__R_S_,  0,  { { &APPL_StructAdi.lInt32,       NULL } } },
- /* Index: 2 */  { "ABP_UINT16", ABP_UINT16, 1, AD_ADI_DESC__R_S_,  0,  { { &APPL_StructAdi.iUint16,      NULL } } },
- /* Index: 3 */  { "ABP_SINT16", ABP_SINT16, 1, AD_ADI_DESC__R_S_,  0,  { { &APPL_StructAdi.iInt16,       NULL } } },
- /* Index: 4 */  { "ABP_BITS16", ABP_BITS16, 1, AD_ADI_DESC__R_S_,  0,  { { &APPL_StructAdi.iBit16,       NULL } } },
- /* Index: 5 */  { "ABP_UINT8",  ABP_UINT8,  1, AD_ADI_DESC__R_S_,  0,  { { &APPL_StructAdi.bUint8,       NULL } } },
- /* Index: 6 */  { "ABP_SINT8",  ABP_SINT8,  1, AD_ADI_DESC__R_S_,  0,  { { &APPL_StructAdi.bInt8,        NULL } } },
- /* Index: 7 */  { "ABP_BITS8",  ABP_BITS8,  1, AD_ADI_DESC__R_S_,  0,  { { &APPL_StructAdi.bBit8,        NULL } } },
- /* Index: 8 */  { "ABP_PAD8",   ABP_PAD8,   1, AD_ADI_DESC__R_S_,  0,  { { NULL,                         NULL } } },
+ /* Index: 0 */  { "ABP_UINT32", ABP_UINT32, 1, AD_ADI_DESC__R_SG,  0,  { { &APPL_StructAdi.lUint32,      NULL } } },
+ /* Index: 1 */  { "ABP_SINT32", ABP_SINT32, 1, AD_ADI_DESC__R_SG,  0,  { { &APPL_StructAdi.lInt32,       NULL } } },
+ /* Index: 2 */  { "ABP_UINT16", ABP_UINT16, 1, AD_ADI_DESC__R_SG,  0,  { { &APPL_StructAdi.iUint16,      NULL } } },
+ /* Index: 3 */  { "ABP_SINT16", ABP_SINT16, 1, AD_ADI_DESC__R_SG,  0,  { { &APPL_StructAdi.iInt16,       NULL } } },
+ /* Index: 4 */  { "ABP_BITS16", ABP_BITS16, 1, AD_ADI_DESC__R_SG,  0,  { { &APPL_StructAdi.iBit16,       NULL } } },
+ /* Index: 5 */  { "ABP_UINT8",  ABP_UINT8,  1, AD_ADI_DESC__R_SG,  0,  { { &APPL_StructAdi.bUint8,       NULL } } },
+ /* Index: 6 */  { "ABP_SINT8",  ABP_SINT8,  1, AD_ADI_DESC__R_SG,  0,  { { &APPL_StructAdi.bInt8,        NULL } } },
+ /* Index: 7 */  { "ABP_BITS8",  ABP_BITS8,  1, AD_ADI_DESC__R_SG,  0,  { { &APPL_StructAdi.bBit8,        NULL } } },
+ /* Index: 8 */  { "ABP_PAD8",   ABP_PAD8,   1, AD_ADI_DESC__R_SG,  0,  { { NULL,                         NULL } } },
  #ifdef ABCC_SYS_16_BIT_CHAR
- /* Index: 9 */  { "ABP_BIT1",   ABP_BIT1,   1, AD_ADI_DESC__R_S_,  0,  { { &APPL_StructAdi.iBitTypes[0], NULL } } },
- /* Index: 10 */ { "ABP_BIT2",   ABP_BIT2,   1, AD_ADI_DESC__R_S_,  1,  { { &APPL_StructAdi.iBitTypes[0], NULL } } },
- /* Index: 11 */ { "ABP_BIT3",   ABP_BIT3,   1, AD_ADI_DESC__R_S_,  3,  { { &APPL_StructAdi.iBitTypes[0], NULL } } },
- /* Index: 12 */ { "ABP_BIT4",   ABP_BIT4,   1, AD_ADI_DESC__R_S_,  6,  { { &APPL_StructAdi.iBitTypes[0], NULL } } },
- /* Index: 13 */ { "ABP_BIT5",   ABP_BIT5,   1, AD_ADI_DESC__R_S_,  10, { { &APPL_StructAdi.iBitTypes[0], NULL } } },
- /* Index: 14 */ { "ABP_BIT6",   ABP_BIT6,   1, AD_ADI_DESC__R_S_,  15, { { &APPL_StructAdi.iBitTypes[0], NULL } } },
- /* Index: 15 */ { "ABP_BIT7",   ABP_BIT7,   1, AD_ADI_DESC__R_S_,  5,  { { &APPL_StructAdi.iBitTypes[1], NULL } } },
- /* Index: 16 */ { "ABP_PAD4",   ABP_PAD4,   1, AD_ADI_DESC__R_S_,  4,  { { NULL,                         NULL } } }
+ /* Index: 9 */  { "ABP_BIT1",   ABP_BIT1,   1, AD_ADI_DESC__R_SG,  0,  { { &APPL_StructAdi.iBitTypes[0], NULL } } },
+ /* Index: 10 */ { "ABP_BIT2",   ABP_BIT2,   1, AD_ADI_DESC__R_SG,  1,  { { &APPL_StructAdi.iBitTypes[0], NULL } } },
+ /* Index: 11 */ { "ABP_BIT3",   ABP_BIT3,   1, AD_ADI_DESC__R_SG,  3,  { { &APPL_StructAdi.iBitTypes[0], NULL } } },
+ /* Index: 12 */ { "ABP_BIT4",   ABP_BIT4,   1, AD_ADI_DESC__R_SG,  6,  { { &APPL_StructAdi.iBitTypes[0], NULL } } },
+ /* Index: 13 */ { "ABP_BIT5",   ABP_BIT5,   1, AD_ADI_DESC__R_SG,  10, { { &APPL_StructAdi.iBitTypes[0], NULL } } },
+ /* Index: 14 */ { "ABP_BIT6",   ABP_BIT6,   1, AD_ADI_DESC__R_SG,  15, { { &APPL_StructAdi.iBitTypes[0], NULL } } },
+ /* Index: 15 */ { "ABP_BIT7",   ABP_BIT7,   1, AD_ADI_DESC__R_SG,  5,  { { &APPL_StructAdi.iBitTypes[1], NULL } } },
+ /* Index: 16 */ { "ABP_PAD4",   ABP_PAD4,   1, AD_ADI_DESC__R_SG,  4,  { { NULL,                         NULL } } }
  #else
- /* Index: 9 */  { "ABP_BIT1",   ABP_BIT1,   1, AD_ADI_DESC__R_S_,  0,  { { &APPL_StructAdi.bBitTypes[0], NULL } } },
- /* Index: 10 */ { "ABP_BIT2",   ABP_BIT2,   1, AD_ADI_DESC__R_S_,  1,  { { &APPL_StructAdi.bBitTypes[0], NULL } } },
- /* Index: 11 */ { "ABP_BIT3",   ABP_BIT3,   1, AD_ADI_DESC__R_S_,  3,  { { &APPL_StructAdi.bBitTypes[0], NULL } } },
- /* Index: 12 */ { "ABP_BIT4",   ABP_BIT4,   1, AD_ADI_DESC__R_S_,  6,  { { &APPL_StructAdi.bBitTypes[0], NULL } } },
- /* Index: 13 */ { "ABP_BIT5",   ABP_BIT5,   1, AD_ADI_DESC__R_S_,  2,  { { &APPL_StructAdi.bBitTypes[1], NULL } } },
- /* Index: 14 */ { "ABP_BIT6",   ABP_BIT6,   1, AD_ADI_DESC__R_S_,  7,  { { &APPL_StructAdi.bBitTypes[1], NULL } } },
- /* Index: 15 */ { "ABP_BIT7",   ABP_BIT7,   1, AD_ADI_DESC__R_S_,  5,  { { &APPL_StructAdi.bBitTypes[2], NULL } } },
- /* Index: 16 */ { "ABP_PAD4",   ABP_PAD4,   1, AD_ADI_DESC__R_S_,  4,  { { NULL,                         NULL } } }
+ /* Index: 9 */  { "ABP_BIT1",   ABP_BIT1,   1, AD_ADI_DESC__R_SG,  0,  { { &APPL_StructAdi.bBitTypes[0], NULL } } },
+ /* Index: 10 */ { "ABP_BIT2",   ABP_BIT2,   1, AD_ADI_DESC__R_SG,  1,  { { &APPL_StructAdi.bBitTypes[0], NULL } } },
+ /* Index: 11 */ { "ABP_BIT3",   ABP_BIT3,   1, AD_ADI_DESC__R_SG,  3,  { { &APPL_StructAdi.bBitTypes[0], NULL } } },
+ /* Index: 12 */ { "ABP_BIT4",   ABP_BIT4,   1, AD_ADI_DESC__R_SG,  6,  { { &APPL_StructAdi.bBitTypes[0], NULL } } },
+ /* Index: 13 */ { "ABP_BIT5",   ABP_BIT5,   1, AD_ADI_DESC__R_SG,  2,  { { &APPL_StructAdi.bBitTypes[1], NULL } } },
+ /* Index: 14 */ { "ABP_BIT6",   ABP_BIT6,   1, AD_ADI_DESC__R_SG,  7,  { { &APPL_StructAdi.bBitTypes[1], NULL } } },
+ /* Index: 15 */ { "ABP_BIT7",   ABP_BIT7,   1, AD_ADI_DESC__R_SG,  5,  { { &APPL_StructAdi.bBitTypes[2], NULL } } },
+ /* Index: 16 */ { "ABP_PAD4",   ABP_PAD4,   1, AD_ADI_DESC__R_SG,  4,  { { NULL,                         NULL } } }
  #endif
 };
 
@@ -140,25 +140,25 @@ static const AD_StructDataType appl_AdiWriteStruct[] =
 */
 const AD_AdiEntryType ABCC_API_asAdiEntryList[] =
 {
-   { 20, "ABP_UINT32_READ",  ABP_UINT32, 1,  AD_ADI_DESC__R_S_, { { &appl_lUint32, NULL } }, NULL },
+   { 20, "ABP_UINT32_READ",  ABP_UINT32, 1,  AD_ADI_DESC__R_SG, { { &appl_lUint32, NULL } }, NULL },
    { 21, "ABP_UINT32_WRITE", ABP_UINT32, 1,  AD_ADI_DESC___W_G, { { &appl_lUint32, NULL } }, NULL },
-   { 22, "ABP_SINT32_READ",  ABP_SINT32, 1,  AD_ADI_DESC__R_S_, { { &appl_lInt32,  NULL } }, NULL },
+   { 22, "ABP_SINT32_READ",  ABP_SINT32, 1,  AD_ADI_DESC__R_SG, { { &appl_lInt32,  NULL } }, NULL },
    { 23, "ABP_SINT32_WRITE", ABP_SINT32, 1,  AD_ADI_DESC___W_G, { { &appl_lInt32,  NULL } }, NULL },
-   { 24, "ABP_UINT16_READ",  ABP_UINT16, 1,  AD_ADI_DESC__R_S_, { { &appl_iUint16, NULL } }, NULL },
+   { 24, "ABP_UINT16_READ",  ABP_UINT16, 1,  AD_ADI_DESC__R_SG, { { &appl_iUint16, NULL } }, NULL },
    { 25, "ABP_UINT16_WRITE", ABP_UINT16, 1,  AD_ADI_DESC___W_G, { { &appl_iUint16, NULL } }, NULL },
-   { 26, "ABP_SINT16_READ",  ABP_SINT16, 1,  AD_ADI_DESC__R_S_, { { &appl_iInt16,  NULL } }, NULL },
+   { 26, "ABP_SINT16_READ",  ABP_SINT16, 1,  AD_ADI_DESC__R_SG, { { &appl_iInt16,  NULL } }, NULL },
    { 27, "ABP_SINT16_WRITE", ABP_SINT16, 1,  AD_ADI_DESC___W_G, { { &appl_iInt16,  NULL } }, NULL },
-   { 28, "ABP_BITS16_READ",  ABP_BITS16, 1,  AD_ADI_DESC__R_S_, { { &appl_iBit16,  NULL } }, NULL },
+   { 28, "ABP_BITS16_READ",  ABP_BITS16, 1,  AD_ADI_DESC__R_SG, { { &appl_iBit16,  NULL } }, NULL },
    { 29, "ABP_BITS16_WRITE", ABP_BITS16, 1,  AD_ADI_DESC___W_G, { { &appl_iBit16,  NULL } }, NULL },
-   { 30, "ABP_UINT8_READ",   ABP_UINT8,  1,  AD_ADI_DESC__R_S_, { { &appl_bUint8,  NULL } }, NULL },
+   { 30, "ABP_UINT8_READ",   ABP_UINT8,  1,  AD_ADI_DESC__R_SG, { { &appl_bUint8,  NULL } }, NULL },
    { 31, "ABP_UINT8_WRITE",  ABP_UINT8,  1,  AD_ADI_DESC___W_G, { { &appl_bUint8,  NULL } }, NULL },
-   { 32, "ABP_SINT8_READ",   ABP_SINT8,  1,  AD_ADI_DESC__R_S_, { { &appl_bInt8,   NULL } }, NULL },
+   { 32, "ABP_SINT8_READ",   ABP_SINT8,  1,  AD_ADI_DESC__R_SG, { { &appl_bInt8,   NULL } }, NULL },
    { 33, "ABP_SINT8_WRITE",  ABP_SINT8,  1,  AD_ADI_DESC___W_G, { { &appl_bInt8,   NULL } }, NULL },
-   { 34, "ABP_PAD8_READ",    ABP_PAD8,   1,  AD_ADI_DESC__R_S_, { { NULL,          NULL } }, NULL },
+   { 34, "ABP_PAD8_READ",    ABP_PAD8,   1,  AD_ADI_DESC__R_SG, { { NULL,          NULL } }, NULL },
    { 35, "ABP_PAD8_WRITE",   ABP_PAD8,   1,  AD_ADI_DESC___W_G, { { NULL,          NULL } }, NULL },
-   { 36, "ABP_BIT7_READ",    ABP_BIT7,   1,  AD_ADI_DESC__R_S_, { { &appl_bBit8,   NULL } }, NULL },
+   { 36, "ABP_BIT7_READ",    ABP_BIT7,   1,  AD_ADI_DESC__R_SG, { { &appl_bBit8,   NULL } }, NULL },
    { 37, "ABP_BIT7_WRITE",   ABP_BIT7,   1,  AD_ADI_DESC___W_G, { { &appl_bBit8,   NULL } }, NULL },
-   { 38, "Struct_READ",      ABP_UINT8,  17, AD_ADI_DESC__R_S_, { { NULL,          NULL } }, appl_AdiReadStruct  },
+   { 38, "Struct_READ",      ABP_UINT8,  17, AD_ADI_DESC__R_SG, { { NULL,          NULL } }, appl_AdiReadStruct  },
    { 39, "Struct_WRITE",     ABP_UINT8,  17, AD_ADI_DESC___W_G, { { NULL,          NULL } }, appl_AdiWriteStruct }
 };
 
@@ -216,7 +216,7 @@ const AD_MapType ABCC_API_asAdObjDefaultMap[] =
 
 UINT16 ABCC_API_CbfGetNumAdi( void )
 {
-    return(sizeof(ABCC_API_asAdiEntryList) / sizeof(AD_AdiEntryType));
+    return( sizeof( ABCC_API_asAdiEntryList ) / sizeof( AD_AdiEntryType ) );
 }
 
 
