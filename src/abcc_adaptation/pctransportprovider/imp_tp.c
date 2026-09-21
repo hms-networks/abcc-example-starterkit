@@ -4,11 +4,10 @@
 ********************************************************************************
 */
 
-// make sure to disable precompiled headers for this file!
-// in Visual Studio 2008:
-//    - Choose "Properties" for imp_tp.c (by rightclicking on the file in the Solution Explorer and selecting it from the context menu)
-//    - Go to "C/C++" -> "Precompiled Headers"
-//    - Set "Create/Use Precompiled Header" to "Not Using Precompiled Headers"
+// Note: This file must be compiled without precompiled headers.
+// PCH may include <windows.h> before the WINVER/_WIN32_WINNT
+// defines below.
+
 #define WINVER 0x0500 // _WIN32_WINNT_WIN2K
 #define _WIN32_WINNT 0x0500 // _WIN32_WINNT_WIN2K
 #define WIN32_LEAN_AND_MEAN
