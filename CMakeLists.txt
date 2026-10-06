@@ -1,8 +1,30 @@
 #-----------------------------------------------------------------------------
-# Requires CMake 3.12 or later for the source_group(TREE ...) command.
+# Requires CMake 3.10 or later (matching the Anybus CompactCom Driver API
+# .cmake file, which uses include_guard)
 #-----------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.12)
 
+#-----------------------------------------------------------------------------
+# Sanity check that this is run in a supported environment.
+# Note: this must run before set(CMAKE_GENERATOR_PLATFORM Win32) below —
+# on a non-Windows host, the platform setting would abort the default
+# generator during project() before this diagnostic could be reached.
+#-----------------------------------------------------------------------------
+if(NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+   message(FATAL_ERROR
+      "Building starter_kit_example on host '${CMAKE_HOST_SYSTEM_NAME}' "
+      "is not supported.")
+endif()
+
+#-----------------------------------------------------------------------------
+# Generate a Win32 (32-bit) project, since the
+# HMS Transport Provider DLL is 32-bit.
+#-----------------------------------------------------------------------------
+set(CMAKE_GENERATOR_PLATFORM Win32)
+
+#-----------------------------------------------------------------------------
+# Restricting the available build configurations to Debug and Release.
+#-----------------------------------------------------------------------------
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 
 #-----------------------------------------------------------------------------
@@ -11,46 +33,30 @@ set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 # give an actionable error message instead of a cryptic
 # "No CMAKE_C_COMPILER could be found" later on.
 #-----------------------------------------------------------------------------
-if(WIN32)
-   find_program(VSWHERE_EXE
-      NAMES vswhere.exe
-      PATHS "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/Installer"
-   )
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+   find_program(VSWHERE_EXE NAMES vswhere.exe
+      PATHS "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/Installer")
    if(VSWHERE_EXE)
       execute_process(
-         COMMAND "${VSWHERE_EXE}" -latest -products *
-                 -requires Microsoft.VisualStudio.Workload.NativeDesktop
+         COMMAND "${VSWHERE_EXE}" -products *
+	         -requires Microsoft.VisualStudio.Workload.NativeDesktop
                  -property installationPath
-         RESULT_VARIABLE VSWHERE_RESULT
-         OUTPUT_VARIABLE VS_INSTALL_PATH
-         OUTPUT_STRIP_TRAILING_WHITESPACE
+         OUTPUT_VARIABLE VS_PATH
+	 OUTPUT_STRIP_TRAILING_WHITESPACE
       )
-      if(NOT VS_INSTALL_PATH)
+      if(NOT VS_PATH)
          message(FATAL_ERROR
             "Visual Studio was found, but the 'Desktop development with C++' "
-            "workload is not installed. Open the Visual Studio Installer, "
-            "select 'Modify', and enable the workload, then re-run CMake.")
+	    "workload is not installed. Open the Visual Studio Installer, "
+	    "select 'Modify', enable the workload, then re-run CMake.")
       endif()
    endif()
 endif()
 
 #-----------------------------------------------------------------------------
-# Generate a Win32 (32-bit) project, since the 
-# HMS Transport Provider DLL is 32-bit.
-#-----------------------------------------------------------------------------
-set(CMAKE_GENERATOR_PLATFORM Win32)
-
-#-----------------------------------------------------------------------------
 # Creating a user host application project.
 #-----------------------------------------------------------------------------
 project(starter_kit_example_project)
-
-#-----------------------------------------------------------------------------
-# Verify that the build is performed in a supported environment.
-#-----------------------------------------------------------------------------
-if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  message(FATAL_ERROR "Host ${CMAKE_SYSTEM_NAME} is not supported to build starter_kit_example.")
-endif()
 
 #-----------------------------------------------------------------------------
 # Creating a user host application executable target.
