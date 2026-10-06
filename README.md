@@ -19,7 +19,7 @@ To enable easy evaluation and inspiration to [Anybus CompactCom](https://www.hms
 
 ## Cloning
 ### Flag? What flag?
-This repository contains three submodules: [abcc-driver-api](https://github.com/hms-networks/abcc-api), [abcc-driver](https://github.com/hms-networks/abcc-driver) and [abcc-abp](https://github.com/hms-networks/abcc-abp). To initialize them automatically during cloning, you must use the `--recurse-submodules` flag.
+This repository contains three submodules: [abcc-driver-api](https://github.com/hms-networks/abcc-driver-api), [abcc-driver](https://github.com/hms-networks/abcc-driver) and [abcc-abp](https://github.com/hms-networks/abcc-abp). To initialize them automatically during cloning, you must use the `--recurse-submodules` flag.
 
 :warning: Important: The "Download ZIP" link (found under the green "Code" button at the top of this page) does not include the bundled submodules. To get the complete source code with all dependencies, run:
 
