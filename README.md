@@ -13,7 +13,7 @@ To enable easy evaluation and inspiration to [Anybus CompactCom](https://www.hms
 ### Visual Studio
 - This example targets Visual Studio with the "Desktop development with C++" workload. Install [Visual Studio](https://visualstudio.microsoft.com/downloads/) with that workload enabled before continuing.
 
-  *CMake will automatically detect the Visual Studio version installed on your computer and generate the corresponding project files.*
+  :bulb: CMake will automatically detect the Visual Studio version installed on your computer and generate the corresponding project files.
 ### Git
 - Of course, you will need to have Git installed. See [this tutorial](https://github.com/git-guides/install-git) on how to install Git.
 
@@ -21,7 +21,8 @@ To enable easy evaluation and inspiration to [Anybus CompactCom](https://www.hms
 ### Flag? What flag?
 This repository contains three submodules: [abcc-driver-api](https://github.com/hms-networks/abcc-driver-api), [abcc-driver](https://github.com/hms-networks/abcc-driver) and [abcc-abp](https://github.com/hms-networks/abcc-abp). To initialize them automatically during cloning, you must use the `--recurse-submodules` flag.
 
-:warning: Important: The "Download ZIP" link (found under the green "Code" button at the top of this page) does not include the bundled submodules. To get the complete source code with all dependencies, run:
+> :warning: The "Download ZIP" link (found under the green "Code" button at the top of this page) does not include the bundled submodules. To
+> get the complete source code with all dependencies, run:
 
 ```
 git clone --recurse-submodules https://github.com/hms-networks/abcc-example-starterkit.git
