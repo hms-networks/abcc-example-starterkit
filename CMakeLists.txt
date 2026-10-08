@@ -1,14 +1,10 @@
 #-----------------------------------------------------------------------------
-# Requires CMake 3.10 or later (matching the Anybus CompactCom Driver API
-# .cmake file, which uses include_guard)
+# Requires CMake 3.11 or later (source-less add_executable() )
 #-----------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.11)
 
 #-----------------------------------------------------------------------------
 # Sanity check that this is run in a supported environment.
-# Note: this must run before set(CMAKE_GENERATOR_PLATFORM Win32) below —
-# on a non-Windows host, the platform setting would abort the default
-# generator during project() before this diagnostic could be reached.
 #-----------------------------------------------------------------------------
 if(NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
    message(FATAL_ERROR
@@ -32,6 +28,11 @@ set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 # "Desktop development with C++" workload is available, so that we can
 # give an actionable error message instead of a cryptic
 # "No CMAKE_C_COMPILER could be found" later on.
+#
+# Known limitation: vswhere is queried without version scoping. With
+# multiple Visual Studio instances installed, the check may pass on an
+# instance other than the one the generator selects, so the fallback to
+# the cryptic error can still occur.
 #-----------------------------------------------------------------------------
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
    find_program(VSWHERE_EXE NAMES vswhere.exe
