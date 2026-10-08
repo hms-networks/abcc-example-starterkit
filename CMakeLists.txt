@@ -34,24 +34,27 @@ set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 # instance other than the one the generator selects, so the fallback to
 # the cryptic error can still occur.
 #-----------------------------------------------------------------------------
-if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
-   find_program(VSWHERE_EXE NAMES vswhere.exe
-      PATHS "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/Installer")
-   if(VSWHERE_EXE)
-      execute_process(
-         COMMAND "${VSWHERE_EXE}" -products *
-	         -requires Microsoft.VisualStudio.Workload.NativeDesktop
-                 -property installationPath
-         OUTPUT_VARIABLE VS_PATH
-	 OUTPUT_STRIP_TRAILING_WHITESPACE
-      )
-      if(NOT VS_PATH)
-         message(FATAL_ERROR
-            "Visual Studio was found, but the 'Desktop development with C++' "
-	    "workload is not installed. Open the Visual Studio Installer, "
-	    "select 'Modify', enable the workload, then re-run CMake.")
-      endif()
-   endif()
+find_program(VSWHERE_EXE NAMES vswhere.exe
+   PATHS "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/Installer")
+if(NOT VSWHERE_EXE)
+   message(FATAL_ERROR
+      "vswhere.exe was not found in the Visual Studio Installer directory. "
+      "This usually means no Visual Studio installation is present. "
+      "Install Visual Studio with the 'Desktop development with C++' "
+      "workload, then re-run cmake.")
+endif()
+execute_process(
+   COMMAND "${VSWHERE_EXE}" -products *
+           -requires Microsoft.VisualStudio.Workload.NativeDesktop
+           -property installationPath
+   OUTPUT_VARIABLE VS_PATH
+   OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+if(NOT VS_PATH)
+   message(FATAL_ERROR
+      "Visual Studio was found, but the 'Desktop development with C++' "
+      "workload is not installed. Open the Visual Studio Installer, "
+      "select 'Modify' and enable the workload, then re-run CMake.")
 endif()
 
 #-----------------------------------------------------------------------------
@@ -104,7 +107,7 @@ target_sources(starter_kit_example PRIVATE
 )
 
 #-----------------------------------------------------------------------------
-# Directories containing 'user unique' header (.h) files related to the 
+# Directories containing 'user unique' header (.h) files related to the
 # Anybus CompactCom Driver API.
 #-----------------------------------------------------------------------------
 
@@ -116,7 +119,9 @@ set(ABCC_API_INCLUDE_DIRS
 #-----------------------------------------------------------------------------
 # The directory containing the Anybus CompactCom Driver API repository.
 #-----------------------------------------------------------------------------
-set(ABCC_API_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/abcc-driver-api)
+set(ABCC_API_DIR
+   ${CMAKE_CURRENT_SOURCE_DIR}/lib/abcc-driver-api
+)
 
 #-----------------------------------------------------------------------------
 # Including the Anybus CompactCom Driver API's CMake module file.
