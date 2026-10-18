@@ -1,6 +1,6 @@
 This set of device description files was created for the following ADI example:
 
-   A_alltypes
+   D_alltypes
 
 When another ADI example will be selected, this set will be exchanged.
 
