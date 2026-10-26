@@ -1,78 +1,148 @@
-# This CMake script is written to work with minimum CMake version 3.10.
-cmake_minimum_required(VERSION 3.10)
+#-----------------------------------------------------------------------------
+# Requires CMake 3.11 or later (source-less add_executable() )
+#-----------------------------------------------------------------------------
+cmake_minimum_required(VERSION 3.11)
 
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
-
-# Forcing CMake to generate a Win32 project since the HMS Transport Provider DLL used
-# is 32-bit.
-set(CMAKE_GENERATOR_PLATFORM Win32)
-
-# Creating a user host application project.
-project(starter_kit_example_project)
-
-# Sanity check that this is ran in a supported environment.
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-else()
-  message(WARNING "Host ${CMAKE_SYSTEM_NAME} is not supported to build starter_kit_example.")
+#-----------------------------------------------------------------------------
+# Sanity check that this is run in a supported environment.
+#-----------------------------------------------------------------------------
+if(NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+   message(FATAL_ERROR
+      "Building starter_kit_example on host '${CMAKE_HOST_SYSTEM_NAME}' "
+      "is not supported.")
 endif()
 
-# Creating a user host application executable target.
-add_executable(starter_kit_example
-  ${PROJECT_SOURCE_DIR}/src/main.c
-)
+#-----------------------------------------------------------------------------
+# Generate a Win32 (32-bit) project, since the
+# HMS Transport Provider DLL is 32-bit.
+#-----------------------------------------------------------------------------
+set(CMAKE_GENERATOR_PLATFORM Win32)
 
+#-----------------------------------------------------------------------------
+# Restricting the available build configurations to Debug and Release.
+#-----------------------------------------------------------------------------
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
+
+#-----------------------------------------------------------------------------
+# Early sanity check: verify that a Visual Studio installation with the
+# "Desktop development with C++" workload is available, so that we can
+# give an actionable error message instead of a cryptic
+# "No CMAKE_C_COMPILER could be found" later on.
+#
+# Known limitation: vswhere is queried without version scoping. With
+# multiple Visual Studio instances installed, the check may pass on an
+# instance other than the one the generator selects, so the fallback to
+# the cryptic error can still occur.
+#-----------------------------------------------------------------------------
+find_program(VSWHERE_EXE NAMES vswhere.exe
+   PATHS "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/Installer")
+if(NOT VSWHERE_EXE)
+   message(FATAL_ERROR
+      "vswhere.exe was not found in the Visual Studio Installer directory. "
+      "This usually means no Visual Studio installation is present. "
+      "Install Visual Studio with the 'Desktop development with C++' "
+      "workload, then re-run cmake.")
+endif()
+execute_process(
+   COMMAND "${VSWHERE_EXE}" -products *
+           -requires Microsoft.VisualStudio.Workload.NativeDesktop
+           -property installationPath
+   OUTPUT_VARIABLE VS_PATH
+   OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+if(NOT VS_PATH)
+   message(FATAL_ERROR
+      "Visual Studio was found, but the 'Desktop development with C++' "
+      "workload is not installed. Open the Visual Studio Installer, "
+      "select 'Modify' and enable the workload, then re-run CMake.")
+endif()
+
+#-----------------------------------------------------------------------------
+# Creating a user host application project.
+#-----------------------------------------------------------------------------
+project(starter_kit_example_project)
+
+#-----------------------------------------------------------------------------
+# Creating a user host application executable target.
+#-----------------------------------------------------------------------------
+add_executable(starter_kit_example)
+
+#-----------------------------------------------------------------------------
 # Changing the default startup project into the executable target.
+#-----------------------------------------------------------------------------
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT starter_kit_example)
 
-# Source (.c) files to add to the executable target. These are 'user unique'. Some are
-# related to the CompactCom Driver API.
+#-----------------------------------------------------------------------------
+# Source (.c) files to add to the executable target. These are 'user unique'.
+# Some are related to the Anybus CompactCom Driver API.
+#-----------------------------------------------------------------------------
 set(starter_kit_example_SRCS
-  ${PROJECT_SOURCE_DIR}/src/main.c
-  ${PROJECT_SOURCE_DIR}/src/example_application/abcc_network_data_parameters.c
-  ${PROJECT_SOURCE_DIR}/src/example_application/implemented_callback_functions.c
-  ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/abcc_software_port.c
-  ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/abcc_hardware_abstraction.c
-  ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/pctransportprovider/imp_tp.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/example_application/abcc_network_data_parameters.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/example_application/implemented_callback_functions.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/abcc_software_port.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/abcc_hardware_abstraction.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/pctransportprovider/imp_tp.c
 )
 
+#-----------------------------------------------------------------------------
 # Header (.h) files related to the user host application.
+#-----------------------------------------------------------------------------
 set(starter_kit_example_INCS
-  ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/abcc_driver_config.h
-  ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/abcc_software_port.h
-  ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/abcc_types.h
-  ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/pctransportprovider/imp_tp.h
-  ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/pctransportprovider/TP.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/abcc_driver_config.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/abcc_software_port.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/abcc_types.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/pctransportprovider/imp_tp.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/pctransportprovider/TP.h
 )
 
-# Adding the 'user unique' sources to the user host application executable target.
-# The header files are added only to keep the file and directory tree structure.
+#-----------------------------------------------------------------------------
+# Adding the 'user unique' sources to the user host application executable
+# target. The header files are added only to keep the file and directory tree
+# structure.
+#-----------------------------------------------------------------------------
 target_sources(starter_kit_example PRIVATE
    ${starter_kit_example_SRCS}
    ${starter_kit_example_INCS}
 )
 
-# Directories containing 'user unique' header (.h) files related to the CompactCom
-# Driver API.
+#-----------------------------------------------------------------------------
+# Directories containing 'user unique' header (.h) files related to the
+# Anybus CompactCom Driver API.
+#-----------------------------------------------------------------------------
+
 set(ABCC_API_INCLUDE_DIRS
-  ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/
-  ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/pctransportprovider/
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/pctransportprovider/
 )
 
+#-----------------------------------------------------------------------------
 # The directory containing the Anybus CompactCom Driver API repository.
-set(ABCC_API_DIR ${PROJECT_SOURCE_DIR}/lib/abcc-driver-api)
+#-----------------------------------------------------------------------------
+set(ABCC_API_DIR
+   ${CMAKE_CURRENT_SOURCE_DIR}/lib/abcc-driver-api
+)
 
+#-----------------------------------------------------------------------------
 # Including the Anybus CompactCom Driver API's CMake module file.
+#-----------------------------------------------------------------------------
 include(${ABCC_API_DIR}/abcc-driver-api.cmake)
 
-# Adding both the Anybus CompactCom Driver API related and unrelated header (.h) files
-# to the user host application executable target.
+#-----------------------------------------------------------------------------
+# Adding both the Anybus CompactCom Driver API related and unrelated
+# header (.h) files to the user host application executable target.
+#-----------------------------------------------------------------------------
 target_include_directories(starter_kit_example PRIVATE
   ${ABCC_API_INCLUDE_DIRS}
 )
 
+#-----------------------------------------------------------------------------
 # Keeping the file and directory tree structure of the host application when 
 # generating the IDE project.
-source_group(TREE ${PROJECT_SOURCE_DIR} FILES ${starter_kit_example_SRCS} ${starter_kit_example_INCS})
+#-----------------------------------------------------------------------------
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${starter_kit_example_SRCS} ${starter_kit_example_INCS})
 
+#-----------------------------------------------------------------------------
 # Linking the Anybus CompactCom Driver library to the executable target.
+#-----------------------------------------------------------------------------
 target_link_libraries(starter_kit_example abcc_api)
