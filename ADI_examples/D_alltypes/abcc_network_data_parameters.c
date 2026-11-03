@@ -37,8 +37,11 @@ typedef struct APPL_AdiType
    UINT8   bUint8;
    INT8    bInt8;
    UINT8   bBit8;
-   UINT8   bBitTypes[ 4 ];
-   UINT16  iBitTypes[ 2 ];
+#ifdef ABCC_SYS_16_BIT_CHAR
+   UINT16 iBitTypes[ 2 ];
+#else
+   UINT8 bBitTypes[ 4 ];
+#endif
 }
 APPL_AdiType;
 
@@ -50,8 +53,6 @@ UINT16   appl_iBit16;
 UINT8    appl_bUint8;
 INT8     appl_bInt8;
 UINT8    appl_bBit8;
-UINT8    bBitTypes[4];
-UINT16   iBitTypes[2];
 
 APPL_AdiType APPL_StructAdi;
 

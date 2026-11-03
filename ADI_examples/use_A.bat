@@ -21,7 +21,7 @@ ECHO ***************************************************************************
 pause
 
 REM goto the root directory
-cd..	& REM level root
+cd /d "%~dp0.."
 
 ECHO Backing up the last ADI example
 md ADI_examples\Backup_Last_ADI_example

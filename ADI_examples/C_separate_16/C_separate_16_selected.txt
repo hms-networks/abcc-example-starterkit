@@ -1,1 +1,1 @@
-The most recently selected ADI example is the C_separate_16.
+Last selected ADI example is C_separate_16.
