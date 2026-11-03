@@ -1,7 +1,7 @@
 ECHO OFF
 CLS
 ECHO ****************************************************************************************************
-ECHO * This batch file use_A.bat copies the following files           					*
+ECHO * This batch file use_B.bat copies the following files           					*
 ECHO * - abcc_network_data_parameters.c				      					*
 ECHO * - abcc_driver_config.h				      	      					*
 ECHO * for the simple_16 application to the example_application folder.					*
