@@ -164,7 +164,7 @@
 **
 ** Overwriting the default value of abcc_driver.h
 **
-** Enable/disable driver and AD object support for structured data data types.
+** Enable/disable driver and AD object support for structured data types.
 ** This define will affect the AD_AdiEntryType
 ** (abcc_application_data_interface.h) used for defining the user ADI:s.
 **------------------------------------------------------------------------------
