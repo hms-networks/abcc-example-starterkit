@@ -1,0 +1,8 @@
+This set of device description files was created for the following ADI example:
+
+   D_alltypes
+
+Selecting a different ADI example replaces this set.
+
+For your own applications, create matching description files using our network guides and/or 
+device description file generators.
