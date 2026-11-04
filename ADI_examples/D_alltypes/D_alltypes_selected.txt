@@ -1,1 +1,0 @@
-Last selected ADI example is D_alltypes.
