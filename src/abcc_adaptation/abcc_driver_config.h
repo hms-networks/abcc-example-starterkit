@@ -7,7 +7,7 @@
 ** documented in the driver's public interface abcc_config.h.
 **
 ** Configuration options with default values defined in abcc_config.h will be
-** used unless overriden here.
+** used unless overridden here.
 ********************************************************************************
 */
 
@@ -26,13 +26,12 @@
 #define ABCC_CFG_DRV_SERIAL_ENABLED                1
 
 /*------------------------------------------------------------------------------
-** The operating mode is selected by the user in the Transport Provider
-** popup window at startup. In contrast, the operating mode is set by the
-** Transport Provider connection itself.
+** The software can both get the operating mode from external resource and set
+** the selected operating mode to the ABCC host connector.
 **------------------------------------------------------------------------------
 */
 #define ABCC_CFG_OP_MODE_GETTABLE                  1
-#define ABCC_CFG_OP_MODE_SETTABLE                  0
+#define ABCC_CFG_OP_MODE_SETTABLE                  1
 
 /*------------------------------------------------------------------------------
 ** ABCC memory access configuration for parallel operating modes
@@ -160,21 +159,17 @@
 #define ABCC_CFG_LOG_STRINGS_ENABLED 1
 #define ABCC_CFG_LOG_COLORS_ENABLED 1
 
-
 /*------------------------------------------------------------------------------
 ** #define ABCC_CFG_STRUCT_DATA_TYPE_ENABLED   1 - Enable / 0 - Disable
 **
 ** Overwriting the default value of abcc_driver.h
 **
-** Enable/disable driver and AD object support for structured data types.
+** Enable/disable driver and AD object support for structured data types.
 ** This define will affect the AD_AdiEntryType
 ** (abcc_application_data_interface.h) used for defining the user ADI:s.
 **------------------------------------------------------------------------------
 */
-#ifndef ABCC_CFG_STRUCT_DATA_TYPE_ENABLED
 #define ABCC_CFG_STRUCT_DATA_TYPE_ENABLED 0             
-#endif
-
 
 /*------------------------------------------------------------------------------
 ** #define ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED   1 - Enable / 0 - Disable
@@ -188,12 +183,7 @@
 ** If an ADI is written by the network the callback is invoked after the action.
 **------------------------------------------------------------------------------
 */
-#ifndef ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED
 #define ABCC_CFG_ADI_GET_SET_CALLBACK_ENABLED 0       
-#endif
-
-
-
 
 
 #endif  /* inclusion lock */
