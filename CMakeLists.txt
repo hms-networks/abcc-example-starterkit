@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------------
-# Requires CMake 3.11 or later (source-less add_executable() )
+# Requires CMake 3.11 or later (due to add_executable() )
 #-----------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.11)
 
@@ -13,10 +13,14 @@ if(NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 #-----------------------------------------------------------------------------
-# Generate a Win32 (32-bit) project, since the
-# HMS Transport Provider DLL is 32-bit.
+# The HMS Transport Provider DLL is 32-bit, so the example must be built as a
+# 32-bit application. With a Visual Studio generator, default to Win32 unless
+# a platform was given explicitly with -A. The result is verified after
+# project() below.
 #-----------------------------------------------------------------------------
-set(CMAKE_GENERATOR_PLATFORM Win32)
+if(CMAKE_GENERATOR MATCHES "^Visual Studio" AND NOT CMAKE_GENERATOR_PLATFORM)
+   set(CMAKE_GENERATOR_PLATFORM Win32)
+endif()
 
 #-----------------------------------------------------------------------------
 # Restricting the available build configurations to Debug and Release.
@@ -24,43 +28,68 @@ set(CMAKE_GENERATOR_PLATFORM Win32)
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 
 #-----------------------------------------------------------------------------
-# Early sanity check: verify that a Visual Studio installation with the
-# "Desktop development with C++" workload is available, so that we can
-# give an actionable error message instead of a cryptic
-# "No CMAKE_C_COMPILER could be found" later on.
+# Early sanity check (Visual Studio generators only): verify that a
+# Visual Studio installation with the "Desktop development with C++"
+# workload is available, so that we can give an actionable error message
+# instead of a cryptic "No CMAKE_C_COMPILER could be found" later on.
 #
 # Known limitation: vswhere is queried without version scoping. With
 # multiple Visual Studio instances installed, the check may pass on an
 # instance other than the one the generator selects, so the fallback to
 # the cryptic error can still occur.
 #-----------------------------------------------------------------------------
-find_program(VSWHERE_EXE NAMES vswhere.exe
-   PATHS "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/Installer")
-if(NOT VSWHERE_EXE)
-   message(FATAL_ERROR
-      "vswhere.exe was not found in the Visual Studio Installer directory. "
-      "This usually means no Visual Studio installation is present. "
-      "Install Visual Studio with the 'Desktop development with C++' "
-      "workload, then re-run cmake.")
-endif()
-execute_process(
-   COMMAND "${VSWHERE_EXE}" -products *
-           -requires Microsoft.VisualStudio.Workload.NativeDesktop
-           -property installationPath
-   OUTPUT_VARIABLE VS_PATH
-   OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-if(NOT VS_PATH)
-   message(FATAL_ERROR
-      "Visual Studio was found, but the 'Desktop development with C++' "
-      "workload is not installed. Open the Visual Studio Installer, "
-      "select 'Modify' and enable the workload, then re-run CMake.")
+if(CMAKE_GENERATOR MATCHES "^Visual Studio")
+   find_program(VSWHERE_EXE NAMES vswhere.exe
+      PATHS "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/Installer")
+   if(NOT VSWHERE_EXE)
+      message(FATAL_ERROR
+         "vswhere.exe was not found in the Visual Studio Installer directory. "
+         "This usually means no Visual Studio installation is present. "
+         "Install Visual Studio with the 'Desktop development with C++' "
+         "workload, then re-run CMake.")
+   endif()
+   execute_process(
+      COMMAND "${VSWHERE_EXE}" -products *
+              -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64
+              -property installationPath
+      OUTPUT_VARIABLE VS_PATH
+      ERROR_VARIABLE  VSWHERE_ERROR
+      RESULT_VARIABLE VSWHERE_RESULT
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_STRIP_TRAILING_WHITESPACE
+   )
+   if(NOT VSWHERE_RESULT EQUAL 0)
+      message(FATAL_ERROR
+         "Running '${VSWHERE_EXE}' failed (${VSWHERE_RESULT}): ${VSWHERE_ERROR}\n"
+         "The Visual Studio installation could not be checked. Repair Visual "
+         "Studio with the Visual Studio Installer, then re-run CMake.")
+   endif()
+   if(NOT VS_PATH)
+      message(FATAL_ERROR
+         "Visual Studio was found, but the 'Desktop development with C++' "
+         "workload is not installed. Open the Visual Studio Installer, "
+         "select 'Modify' and enable the workload, then re-run CMake.")
+   endif()
 endif()
 
 #-----------------------------------------------------------------------------
 # Creating a user host application project.
 #-----------------------------------------------------------------------------
 project(starter_kit_example_project)
+
+#-----------------------------------------------------------------------------
+# Verify that a 32-bit target was selected (see CMAKE_GENERATOR_PLATFORM
+# above). CMAKE_SIZEOF_VOID_P is the pointer size in bytes of the selected
+# compiler, determined by project(): 4 for a 32-bit target, 8 for a 64-bit
+# target. This works regardless of how the target was chosen (-A Win32 or a
+# 32-bit toolchain).
+#-----------------------------------------------------------------------------
+if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
+   message(FATAL_ERROR
+      "starter_kit_example must be built as a 32-bit application, because the "
+      "HMS Transport Provider DLL is 32-bit. Delete the build directory and "
+      "re-run CMake with '-A Win32' (Visual Studio) or a 32-bit toolchain.")
+endif()
 
 #-----------------------------------------------------------------------------
 # Creating a user host application executable target.
@@ -137,7 +166,7 @@ target_include_directories(starter_kit_example PRIVATE
 )
 
 #-----------------------------------------------------------------------------
-# Keeping the file and directory tree structure of the host application when 
+# Keeping the file and directory tree structure of the host application when
 # generating the IDE project.
 #-----------------------------------------------------------------------------
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${starter_kit_example_SRCS} ${starter_kit_example_INCS})
