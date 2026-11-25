@@ -49,7 +49,7 @@ if(CMAKE_GENERATOR MATCHES "^Visual Studio")
          "workload, then re-run CMake.")
    endif()
    execute_process(
-      COMMAND "${VSWHERE_EXE}" -products *
+      COMMAND "${VSWHERE_EXE}" -products * -prerelease
               -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64
               -property installationPath
       OUTPUT_VARIABLE VS_PATH
