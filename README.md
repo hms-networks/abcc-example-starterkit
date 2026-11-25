@@ -1,4 +1,7 @@
 # abcc-example-starterkit
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Visual Studio](https://img.shields.io/badge/Visual_Studio-C-5C2D91?logo=visualstudio&logoColor=white)](https://visualstudio.microsoft.com/) [![CMake](https://img.shields.io/badge/CMake-3.11%2B-064F8C?logo=cmake&logoColor=white)](https://cmake.org/download/)
+
 This is a stand-alone example application using the Anybus CompactCom Driver API ([abcc-driver-api](https://github.com/hms-networks/abcc-driver-api)) ported for the [Anybus CompactCom Starter Kit](https://anybus.com/starterkit40) evaluation platform.
 
 ### Purpose
@@ -19,7 +22,7 @@ To enable easy evaluation and inspiration to [Anybus CompactCom](https://www.hms
 - If you do not yet have CMake, [download](https://cmake.org/download/) and install it before continuing.
 
 ### Visual Studio
-- This example targets Visual Studio with the "Desktop development with C++" workload. Install [Visual Studio](https://visualstudio.microsoft.com/downloads/) with that workload enabled before continuing.
+- This example targets Visual Studio with the "Desktop development with C++" workload. Install [Visual Studio](https://visualstudio.microsoft.com/downloads/) (or the Build Tools for Visual Studio) with that workload enabled before continuing.
 
   :bulb: CMake will automatically detect the Visual Studio version installed on your computer and generate the corresponding project files.
 
@@ -29,14 +32,14 @@ To enable easy evaluation and inspiration to [Anybus CompactCom](https://www.hms
 ## Cloning
 
 ### Flag? What flag?
-This repository contains three submodules: [abcc-driver-api](https://github.com/hms-networks/abcc-driver-api), [abcc-driver](https://github.com/hms-networks/abcc-driver) and [abcc-abp](https://github.com/hms-networks/abcc-abp). To initialize them automatically during cloning, you must use the `--recurse-submodules` flag.
-
-> :warning: The "Download ZIP" link (found under the green "Code" button at the top of this page) does not include the bundled submodules. To
-> get the complete source code with all dependencies, run:
+This repository contains the three submodules [abcc-driver-api](https://github.com/hms-networks/abcc-driver-api), [abcc-driver](https://github.com/hms-networks/abcc-driver) and [abcc-abp](https://github.com/hms-networks/abcc-abp) that must be initialized. Therefore, pass the flag `--recurse-submodules` when cloning.
 
 ```
 git clone --recurse-submodules https://github.com/hms-networks/abcc-example-starterkit.git
 ```
+
+> :warning: Do not use the "Download ZIP" link (found under the green "Code" button at the top of this page) as it does not include the bundled submodules.
+
 #### (In case you missed it...)
 If you did not pass the flag `--recurse-submodules` when cloning, the following command can be run:
 ```
@@ -60,9 +63,18 @@ cmake ..
 ```
 
 ### Step 2. Visual Studio
-Open the generated `build/starter_kit_example_project.sln` solution in Visual Studio and start the Local Windows Debugger (green play button or hit F5). 
+Open the generated `build/starter_kit_example_project.sln` solution in Visual Studio and start the Local Windows Debugger (green play button or hit F5).
+
+#### Without the Visual Studio IDE
+If you only have the Build Tools for Visual Studio installed, skip Step 2 and build and run the example from the command line, still in the `build` folder:
+```
+cmake --build . --config Debug
+```
+```
+Debug\starter_kit_example.exe
+```
 
 :tada: The project should now build and run!
 
-#### (Nothing is happening...) :thinking:
+### (Nothing is happening...) :thinking:
 Make sure that your Anybus USB Development Board is powered on and the USB cable is plugged into your PC. See the [Starter Kit Reference Guide](https://hmsnetworks.blob.core.windows.net/nlw/docs/default-source/products/anybus/manuals-and-guides---manuals/hms-hmsi-27-224.pdf?sfvrsn=8dfb9d6_20) for more details.
