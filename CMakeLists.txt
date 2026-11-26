@@ -30,6 +30,7 @@ set(starter_kit_example_SRCS
   ${PROJECT_SOURCE_DIR}/src/main.c
   ${PROJECT_SOURCE_DIR}/src/example_application/abcc_network_data_parameters.c
   ${PROJECT_SOURCE_DIR}/src/example_application/implemented_callback_functions.c
+  ${PROJECT_SOURCE_DIR}/src/example_application/network_settings_sequence.c
   ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/abcc_software_port.c
   ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/abcc_hardware_abstraction.c
   ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/pctransportprovider/imp_tp.c
@@ -37,6 +38,8 @@ set(starter_kit_example_SRCS
 
 # Header (.h) files related to the user host application.
 set(starter_kit_example_INCS
+  ${PROJECT_SOURCE_DIR}/src/example_application/implemented_callback_functions.h
+  ${PROJECT_SOURCE_DIR}/src/example_application/network_settings_sequence.h
   ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/abcc_driver_config.h
   ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/abcc_software_port.h
   ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/abcc_types.h
