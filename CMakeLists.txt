@@ -109,7 +109,11 @@ set(starter_kit_example_SRCS
   ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/example_application/abcc_network_data_parameters.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/example_application/implemented_callback_functions.c
+<<<<<<< HEAD
   ${CMAKE_CURRENT_SOURCE_DIR}/src/example_application/network_settings_sequence.c
+=======
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/example_application/network_settings_sequence.c
+>>>>>>> 5a343e51a273ec161102acb8168363bc55d7f39b
   ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/abcc_software_port.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/abcc_hardware_abstraction.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/pctransportprovider/imp_tp.c
