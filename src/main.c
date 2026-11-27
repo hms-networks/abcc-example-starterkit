@@ -79,11 +79,11 @@ void ABCC_API_CbfUserInit( ABCC_API_NetworkType iNetworkType, ABCC_API_FwVersion
    printf( " - Firmware version: %u.%u.%u\n", iFirmwareVersion.bMajor, iFirmwareVersion.bMinor, iFirmwareVersion.bBuild );
 
    /*
-   ** Provide node address and baud rate if the plugged module is a fieldbus
-   ** module which has these as network parameters, or the last byte of the IP
-   ** address for Ethernet based modules (if enabled). The values are
-   ** written to the module by the API when ABCC_API_UserInitComplete() is
-   ** called, so they must be provided before that.
+   ** Provide node address / baud rate (fieldbus modules) or the last byte of the
+   ** IP address (Ethernet modules, if enabled). The application module writes
+   ** them to the module and calls ABCC_API_UserInitComplete() when finished
+   ** (immediately, if there is nothing to write). The abcc-driver-api itself
+   ** is not asked to send these settings.
    */
    APPL_NetworkSettingsStart( iNetworkType );
    return;

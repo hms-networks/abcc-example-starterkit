@@ -36,7 +36,7 @@
    ** The node address (and baud rate) is provided to modules for fieldbus
    ** networks that have these as network parameters. For Ethernet based
    ** modules, the address value sets the last byte of the IP address (upper 3
-   ** bytes are fixed), if ABCC_API_IP_BY_SWITCH_ENABLED is set.
+   ** bytes are fixed), if APPL_CFG_IP_BY_SWITCH_ENABLED is set.
    **
    ** Note 2:
    ** For CC-Link IE TSN, there are additional communication settings that can
@@ -94,7 +94,7 @@ BOOL8 ABCC_CbfApplicationObjFirmwareAvailable_Get( void )
 BOOL8 ABCC_CbfApplicationObjHWConfAddress_Get( void )
 {
    /* Return TRUE, if the IP address is set by (emulated) address switches
-      (ABCC_API_SetAddress()), even if currently configured by software.
+      (APPL_CbfGetNodeAddress()), even if currently configured by software.
       Otherwise FALSE to indicate that network address is not configurable in
       hardware. */
    return( (BOOL8)APPL_CFG_IP_BY_SWITCH_ENABLED );
@@ -172,7 +172,7 @@ BOOL APPL_CbfGetNodeAddress( UINT16* piAddress )
    ** NOTE: fAddressProvided is initialized to FALSE, which means that no
    ** address is provided. It shall be set to TRUE when an address is stored in
    ** *piAddress, because the returned value tells the caller whether the
-   ** address shall be provided to the API.
+   ** address shall be written to the module.
    */
    (void)piAddress;
 #if APPL_CFG_SET_FIELDBUS_TEST_ADDRESS
@@ -200,7 +200,7 @@ BOOL APPL_CbfGetBaudrate( UINT8* pbBaudrate )
    ** NOTE: fBaudrateProvided is initialized to FALSE, which means that no baud
    ** rate is provided. It shall be set to TRUE when a baud rate is stored in
    ** *pbBaudrate, because the returned value tells the caller whether the baud
-   ** rate shall be provided to the API.
+   ** rate shall be written to the module.
    */
    (void)pbBaudrate;
 #if APPL_CFG_SET_FIELDBUS_TEST_ADDRESS

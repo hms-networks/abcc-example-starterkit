@@ -119,6 +119,8 @@ set(starter_kit_example_SRCS
 # Header (.h) files related to the user host application.
 #-----------------------------------------------------------------------------
 set(starter_kit_example_INCS
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/example_application/implemented_callback_functions.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/example_application/network_settings_sequence.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/abcc_driver_config.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/abcc_software_port.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/abcc_types.h

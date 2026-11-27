@@ -52,16 +52,17 @@ static ABCC_CmdSeqCmdStatusType SetIpAddress( ABP_MsgType* psMsg, void* pxUserDa
 static ABCC_CmdSeqCmdStatusType SetNetmask( ABP_MsgType* psMsg, void* pxUserData );
 static ABCC_CmdSeqCmdStatusType SetGateway( ABP_MsgType* psMsg, void* pxUserData );
 static ABCC_CmdSeqCmdStatusType SetDhcp( ABP_MsgType* psMsg, void* pxUserData );
+static ABCC_CmdSeqRespStatusType CheckResponse( ABP_MsgType* psMsg, void* pxUserData );
 static void NetworkSettingsDone( const ABCC_CmdSeqResultType eSeqResult, void* pxUserData );
 
 static const ABCC_CmdSeqType appl_asNetworkSettingsCmdSeq[] =
 {
-   ABCC_CMD_SEQ( SetNodeAddress, NULL ),
-   ABCC_CMD_SEQ( SetBaudrate, NULL ),
-   ABCC_CMD_SEQ( SetIpAddress, NULL ),
-   ABCC_CMD_SEQ( SetNetmask, NULL ),
-   ABCC_CMD_SEQ( SetGateway, NULL ),
-   ABCC_CMD_SEQ( SetDhcp, NULL ),
+   ABCC_CMD_SEQ( SetNodeAddress, CheckResponse ),
+   ABCC_CMD_SEQ( SetBaudrate, CheckResponse ),
+   ABCC_CMD_SEQ( SetIpAddress, CheckResponse ),
+   ABCC_CMD_SEQ( SetNetmask, CheckResponse ),
+   ABCC_CMD_SEQ( SetGateway, CheckResponse ),
+   ABCC_CMD_SEQ( SetDhcp, CheckResponse ),
    ABCC_CMD_SEQ_END()
 };
 
@@ -170,11 +171,38 @@ static ABCC_CmdSeqCmdStatusType SetDhcp( ABP_MsgType* psMsg, void* pxUserData )
 }
 
 /*------------------------------------------------------------------------------
+** Response handler of the sequence. If the module rejects a command (error bit
+** set in the response), the error is logged and the rest of the sequence is
+** aborted. This avoids a partly written configuration, e.g. a changed netmask
+** or gateway and disabled DHCP after a rejected IP address.
+**------------------------------------------------------------------------------
+*/
+static ABCC_CmdSeqRespStatusType CheckResponse( ABP_MsgType* psMsg, void* pxUserData )
+{
+   ABCC_CmdSeqRespStatusType eRespStatus = ABCC_CMDSEQ_RESP_EXEC_NEXT;
+
+   (void)pxUserData;
+
+   if( ABCC_VerifyMessage( psMsg ) != ABCC_EC_NO_ERROR )
+   {
+      ABCC_LOG_ERROR( ABCC_EC_RESP_MSG_E_BIT_SET,
+                      (UINT32)ABCC_GetErrorCode( psMsg ),
+                      "Network setting rejected by the module (error code %d). "
+                      "Remaining network settings are not written.\n",
+                      (int)ABCC_GetErrorCode( psMsg ) );
+      eRespStatus = ABCC_CMDSEQ_RESP_ABORT;
+   }
+
+   return( eRespStatus );
+}
+
+/*------------------------------------------------------------------------------
 ** Sequence done: Let the abcc-api continue with the setup of the module.
 ** This is done also if the sequence was aborted, so the module does not stay
 ** in state SETUP.
 **------------------------------------------------------------------------------
 */
+static ABCC_CmdSeqRespStatusType CheckResponse( ABP_MsgType* psMsg, void* pxUserData );
 static void NetworkSettingsDone( const ABCC_CmdSeqResultType eSeqResult, void* pxUserData )
 {
    (void)pxUserData;
