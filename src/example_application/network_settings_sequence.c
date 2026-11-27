@@ -173,8 +173,8 @@ static ABCC_CmdSeqCmdStatusType SetDhcp( ABP_MsgType* psMsg, void* pxUserData )
 /*------------------------------------------------------------------------------
 ** Response handler of the sequence. If the module rejects a command (error bit
 ** set in the response), the error is logged and the rest of the sequence is
-** aborted. This avoids a partly written configuration, e.g. a changed netmask
-** or gateway and disabled DHCP after a rejected IP address.
+** aborted. Settings already accepted are not rolled back, so a partial
+** configuration can remain; only subsequent writes are prevented.
 **------------------------------------------------------------------------------
 */
 static ABCC_CmdSeqRespStatusType CheckResponse( ABP_MsgType* psMsg, void* pxUserData )
