@@ -106,22 +106,13 @@ set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT s
 # Some are related to the Anybus CompactCom Driver API.
 #-----------------------------------------------------------------------------
 set(starter_kit_example_SRCS
-<<<<<<< HEAD
-  ${PROJECT_SOURCE_DIR}/src/main.c
-  ${PROJECT_SOURCE_DIR}/src/example_application/abcc_network_data_parameters.c
-  ${PROJECT_SOURCE_DIR}/src/example_application/implemented_callback_functions.c
-  ${PROJECT_SOURCE_DIR}/src/example_application/network_settings_sequence.c
-  ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/abcc_software_port.c
-  ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/abcc_hardware_abstraction.c
-  ${PROJECT_SOURCE_DIR}/src/abcc_adaptation/pctransportprovider/imp_tp.c
-=======
   ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/example_application/abcc_network_data_parameters.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/example_application/implemented_callback_functions.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/example_application/network_settings_sequence.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/abcc_software_port.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/abcc_hardware_abstraction.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/abcc_adaptation/pctransportprovider/imp_tp.c
->>>>>>> 03219fab9fe348e6dae94c8e600fdd731eb40e58
 )
 
 #-----------------------------------------------------------------------------
